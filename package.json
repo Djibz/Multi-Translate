@@ -9,7 +9,11 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "1.17.11",
+    "@react-native-google-signin/google-signin": "^10.0.1",
     "expo": "~48.0.18",
+    "expo-auth-session": "~4.0.3",
+    "expo-crypto": "~12.2.1",
     "expo-status-bar": "~1.4.4",
     "react": "18.2.0",
     "react-native": "0.71.8"
@@ -17,5 +21,8 @@
   "devDependencies": {
     "@babel/core": "^7.20.0"
   },
-  "private": true
+  "private": true,
+  "plugins": [
+    "@react-native-google-signin/google-signin"
+  ]
 }
