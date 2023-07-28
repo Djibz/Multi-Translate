@@ -8,18 +8,12 @@
 import * as React from "react";
 
 import { StatusBar } from "expo-status-bar";
-import {
-  Button,
-  FlatList,
-  SafeAreaView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native";
-import { TranslateCard } from "./components/TranslateCard";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import TranslationScreen from "./screens/translationScreen";
+import LoginScreen from "./screens/loginScreen";
 
 const LANGUAGES = [
   { name: "français", code: "fr" },
@@ -29,77 +23,26 @@ const LANGUAGES = [
 
 export default function App() {
   const [userInfo, setUserInfo] = React.useState(null);
-  const [request, response, prompAsync] = Google.useAuthRequest({
-    androidClientId:
-      "423797242227-il4co01numtjcj6tilb0vt66va6bp2qb.apps.googleusercontent.com",
-    expoClientId:
-      "423797242227-dfp9ujma0g4t0k6ru9l2n6oh7gm8i393.apps.googleusercontent.com",
-    scopes: ["https://www.googleapis.com/auth/cloud-translation"]
-  });
 
-  function okdac() {
-    prompAsync();
-    
-  }
-
-  React.useEffect(() => {
-    console.log("Google Sign In request:", request);
-    console.log("Google Sign In Response:", response);
-  }, [response, request]);
-
-  function translate(text, source, target) {
-    console.log(response.authentication.accessToken);
-    fetch("https://translation.googleapis.com/v3beta1/projects/423797242227:translateText", {
-      method: "POST",
-      headers: {
-        Authorization: 'Bearer ' + response.authentication.accessToken,
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        contents: [
-          text
-        ],
-        sourceLanguageCode: source,
-        targetLanguageCode: target
-      }),
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json)
-        return json;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }
+  const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <StatusBar style="light" />
-      <Button title="Sign in with google" onPress={okdac} />
-      <FlatList
-        contentContainerStyle={styles.list}
-        style={{ width: "100%" }}
-        data={LANGUAGES}
-        renderItem={(item) => <TranslateCard item={item.item} />}
-      />
-      <Button title='translate' onPress={translate.bind(this, 'bonjour', 'fr', 'pt')} />
-    </SafeAreaView>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Translator"
+            component={TranslationScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    flex: 1,
-    backgroundColor: "#292b2f",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  list: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 10,
-  },
-});

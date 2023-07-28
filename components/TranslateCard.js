@@ -1,17 +1,87 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
+import { Colors } from "../constants/colors";
+import { useEffect, useState } from "react";
 
-export function TranslateCard({ item }) {
+export function TranslateCard({
+  item,
+  sourceSentence,
+  sourceLanguage,
+  token,
+  onModified,
+}) {
+  const [loading, setLoading] = useState(true);
+  const [sentence, setSentence] = useState("");
+  const [wait, setWait] = useState(null);
+
+  function onChange(text) {
+    clearTimeout(wait);
+    setSentence(text);
+
+    setWait(
+      setTimeout(() => {
+        console.log(sentence);
+        onModified(sentence, item.languageCode);
+      }, 1500)
+    );
+  }
+
+  useEffect(() => {
+    async function translate(text, source, target, token) {
+      if (source === target) {
+        setSentence(text);
+        return;
+      }
+
+      return await fetch(
+        "https://translation.googleapis.com/v3beta1/projects/423797242227:translateText",
+        {
+          method: "POST",
+          headers: {
+            Authorization: "Bearer " + token,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            contents: [text],
+            sourceLanguageCode: source,
+            targetLanguageCode: target,
+          }),
+        }
+      )
+        .then((response) => response.json())
+        .then((json) => {
+          console.log(json);
+          setSentence(json.translations[0].translatedText);
+        })
+        .catch((error) => {
+          setSentence("");
+        });
+    }
+
+    setLoading(true);
+    translate(sourceSentence, sourceLanguage, item.languageCode, token);
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <></>;
+  }
+
   return (
     <View style={styles.mainContainer}>
       <MagicBorder
         radius={4}
         width={4}
-        image={{ uri: `https://flagcdn.com/h240/${item.code}.png` }}
+        image={{ uri: `https://flagcdn.com/h240/${item.languageCode}.png` }}
       >
         <View style={styles.card}>
-          <Text style={styles.text}>{item.name}</Text>
-          <TextInput style={styles.input}>ouais super</TextInput>
+          <Text style={styles.text}>{item.displayName}</Text>
+          <TextInput
+            style={styles.input}
+            onChangeText={onChange}
+            value={sentence}
+          />
         </View>
       </MagicBorder>
     </View>
@@ -24,7 +94,7 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   card: {
-    backgroundColor: "#2f3136",
+    backgroundColor: Colors.secondary,
     padding: 10,
     height: 100,
     width: "100%",
