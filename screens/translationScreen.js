@@ -2,10 +2,13 @@ import { Button, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { Colors } from "../constants/colors";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddButton from "../components/AddButton";
+import { ScrollView } from "react-native";
+import { useSelector, useDispatch } from "react-redux";
 
 function getAllLanguages(token, setLanguages) {
+  console.log(new Date());
   fetch(
     "https://translation.googleapis.com/v3beta1/projects/423797242227/supportedLanguages?displayLanguageCode=fr",
     {
@@ -33,7 +36,14 @@ function TranslationScreen({ route, navigation }) {
   const [selectedLanguages, setSelectedLanguages] = useState([]);
   const [modalOpened, setModalOpened] = useState(false);
 
-  getAllLanguages(route.params.token, setLanguages);
+  const token = useSelector((state) => {
+    console.log(state);
+    return state.token;
+  });
+
+  useEffect(() => {
+    getAllLanguages(token, setLanguages);
+  }, []);
 
   function onAdd() {
     setModalOpened(true);
@@ -103,7 +113,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   list: {
-    flex: 1,
     justifyContent: "center",
     padding: 10,
   },

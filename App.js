@@ -14,6 +14,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TranslationScreen from "./screens/translationScreen";
 import LoginScreen from "./screens/loginScreen";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import { Provider } from "react-redux";
+import { store } from "./store/token-context";
 
 const LANGUAGES = [
   { name: "français", code: "fr" },
@@ -25,24 +28,39 @@ export default function App() {
   const [userInfo, setUserInfo] = React.useState(null);
 
   const Stack = createNativeStackNavigator();
+  const Tab = createMaterialBottomTabNavigator();
+
+  function Mains() {
+    return (
+      <Provider store={store}>
+        <Tab.Navigator>
+          <Tab.Screen name="Translators" component={TranslationScreen} />
+          <Tab.Screen name="languages" component={TranslationScreen} />
+        </Tab.Navigator>
+      </Provider>
+    );
+  }
 
   return (
     <>
       <StatusBar style="light" />
-      <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Login"
-            component={LoginScreen}
-            options={{ headerShown: false }}
-          />
-          <Stack.Screen
-            name="Translator"
-            component={TranslationScreen}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Login"
+              component={LoginScreen}
+              options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+              name="Translator"
+              component={Mains}
+              // options={{ headerShown: false }}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>
     </>
   );
 }

@@ -2,6 +2,8 @@ import { Button, StyleSheet, View } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import { Colors } from "../constants/colors";
 import React from "react";
+import { set } from "../store/token-context";
+import { useDispatch } from "react-redux";
 
 function LoginScreen({ route, navigation }) {
   const [request, response, prompAsync] = Google.useAuthRequest({
@@ -16,11 +18,16 @@ function LoginScreen({ route, navigation }) {
     prompAsync();
   }
 
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
-    if (response?.type === "success")
+    if (response?.type === "success") {
+      console.log(response.authentication.accessToken);
+      dispatch(set(response.authentication.accessToken));
       navigation.navigate("Translator", {
         token: response.authentication.accessToken,
       });
+    }
   }, [response]);
 
   return (

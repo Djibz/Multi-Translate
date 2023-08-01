@@ -11,17 +11,24 @@ export function TranslateCard({
   onModified,
 }) {
   const [loading, setLoading] = useState(true);
+  const [passed, setPassed] = useState(false);
   const [sentence, setSentence] = useState("");
   const [wait, setWait] = useState(null);
+
+  if(passed) {
+    setPassed(false);
+    onModified(sentence, item.languageCode);
+  }
 
   function onChange(text) {
     clearTimeout(wait);
     setSentence(text);
+    setPassed(false)
 
     setWait(
       setTimeout(() => {
         console.log(sentence);
-        onModified(sentence, item.languageCode);
+        setPassed(true);
       }, 1500)
     );
   }
@@ -62,7 +69,7 @@ export function TranslateCard({
     setLoading(true);
     translate(sourceSentence, sourceLanguage, item.languageCode, token);
     setLoading(false);
-  }, []);
+  }, [sourceSentence, sourceLanguage]);
 
   if (loading) {
     return <></>;
@@ -78,6 +85,7 @@ export function TranslateCard({
         <View style={styles.card}>
           <Text style={styles.text}>{item.displayName}</Text>
           <TextInput
+            removeClippedSubviews={false}
             style={styles.input}
             onChangeText={onChange}
             value={sentence}
