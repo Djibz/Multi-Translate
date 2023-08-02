@@ -1,11 +1,11 @@
-import { Button, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { Colors } from "../constants/colors";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
-function TranslationScreen({ route, navigation }) {
+function TranslationScreen() {
   const [sentence, setSentence] = useState("Bonjour");
   const [source, setSource] = useState("fr");
 

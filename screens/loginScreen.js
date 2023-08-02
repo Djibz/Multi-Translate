@@ -5,6 +5,7 @@ import React, { useState } from "react";
 import { set } from "../store/token-context";
 import { useDispatch } from "react-redux";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { Text } from "react-native";
 
 function LoginScreen({ route, navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,6 +39,8 @@ function LoginScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <Text style={[styles.text, styles.title]}>Multi Translate</Text>
+      <Text style={styles.text}>Login to use the Google Translate API</Text>
       <Button title="Sign in with google" onPress={login} />
     </View>
   );
@@ -51,6 +54,13 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: Colors.primary,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
+  },
+  text: {
+    color: "white",
+  },
+  title: {
+    fontWeight: "bold",
+    fontSize: 30,
   },
 });

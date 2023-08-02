@@ -1,4 +1,4 @@
-import { FlatList, Pressable, StyleSheet, Text, View } from "react-native";
+import { FlatList, StyleSheet, TextInput, View } from "react-native";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -6,12 +6,11 @@ import { getAllLanguages } from "../util/http";
 import { setLanguages } from "../store/languages-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
-import { current } from "@reduxjs/toolkit";
 
-function LanguagesScreen({ route, navigation }) {
+function LanguagesScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
-  // const { setCount } = route.params;
+  const [search, setSearch] = useState("");
 
   const dispatcher = useDispatch();
 
@@ -35,9 +34,14 @@ function LanguagesScreen({ route, navigation }) {
     getL();
   }, []);
 
+  let regex = new RegExp(search, "i");
+  console.log(regex);
+
   const languages = useSelector((state) => {
     return state.languages.languages;
-  });
+  }).filter((item) =>
+    search === "" ? true : item.displayName.search(regex) >= 0
+  );
 
   if (isLoading) {
     return <LoadingOverlay />;
@@ -45,11 +49,9 @@ function LanguagesScreen({ route, navigation }) {
 
   function onClick(index) {
     if (languages[index].activated) {
-      // setCount();
       setLCount((current) => current - 1);
       languages[index].activated = false;
     } else {
-      // setCount();
       setLCount((current) => current + 1);
       languages[index].activated = true;
     }
@@ -57,8 +59,18 @@ function LanguagesScreen({ route, navigation }) {
 
   return (
     <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <TextInput
+          placeholder="Search here..."
+          placeholderTextColor="#948c8c"
+          style={styles.input}
+          value={search}
+          onChangeText={(text) => setSearch(text)}
+        />
+      </View>
       <FlatList
-        contentContainerStyle={styles.modal}
+        contentContainerStyle={{ alignItems: "stretch" }}
+        style={styles.list}
         data={languages}
         renderItem={(item) => (
           <LanguageCard item={item} onClick={onClick.bind(this, item.index)} />
@@ -78,14 +90,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  languageButton: {
-    padding: 8,
-    backgroundColor: Colors.secondary,
-    borderRadius: 4,
-    margin: 4,
+  list: {
+    width: "100%",
   },
-  languageText: {
-    fontWeight: "bold",
+  input: {
+    width: "90%",
+    backgroundColor: Colors.thirdly,
     color: "white",
+    height: 40,
+    borderRadius: 4,
+    marginBottom: 8,
+    paddingHorizontal: 16,
+  },
+  inputContainer: {
+    flexDirection: "column-reverse",
+    backgroundColor: Colors.secondary,
+    width: "100%",
+    alignItems: "center",
+    height: 60,
   },
 });

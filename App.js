@@ -19,15 +19,8 @@ import { Provider } from "react-redux";
 import LanguagesScreen from "./screens/languagesScreen";
 import { store } from "./store/store";
 import { Colors } from "./constants/colors";
-import { useState } from "react";
 
 import Icon from "react-native-vector-icons/Ionicons";
-
-const LANGUAGES = [
-  { name: "français", code: "fr" },
-  { name: "anglais", code: "gb" },
-  { name: "portugais", code: "pt" },
-];
 
 export default function App() {
   const [userInfo, setUserInfo] = React.useState(null);
@@ -40,13 +33,21 @@ export default function App() {
   function Mains() {
     return (
       <Provider store={store}>
-        <Tab.Navigator barStyle={{ backgroundColor: Colors.secondary }}>
+        <Tab.Navigator
+          activeColor="white"
+          shifting={true}
+          barStyle={{ backgroundColor: Colors.secondary }}
+        >
           <Tab.Screen
             name="Languages"
             component={LanguagesScreen}
             options={{
-              tabBarIcon: ({ color }) => (
-                <Icon name="planet-outline" color={color} size={26} />
+              tabBarIcon: ({ focused }) => (
+                <Icon
+                  name="planet-outline"
+                  color={focused ? "black" : "white"}
+                  size={26}
+                />
               ),
             }}
           />
@@ -55,8 +56,12 @@ export default function App() {
             component={TranslationScreen}
             initialParams={{ count: count }}
             options={{
-              tabBarIcon: ({ color }) => (
-                <Icon name="language-outline" color={color} size={26} />
+              tabBarIcon: ({ focused }) => (
+                <Icon
+                  name="language-outline"
+                  color={focused ? "black" : "white"}
+                  size={26}
+                />
               ),
             }}
           />

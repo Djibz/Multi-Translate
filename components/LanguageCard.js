@@ -6,7 +6,7 @@ function LanguageCard({ item, onClick }) {
     <Pressable
       style={[
         styles.languageButton,
-        { backgroundColor: item.item.activated ? "green" : Colors.secondary },
+        { backgroundColor: item.item.activated ? "#339626" : Colors.secondary },
       ]}
       onPress={onClick}
     >
@@ -19,10 +19,11 @@ export default LanguageCard;
 
 const styles = StyleSheet.create({
   languageButton: {
-    padding: 8,
+    padding: 16,
     backgroundColor: Colors.secondary,
     borderRadius: 4,
-    margin: 4,
+    marginVertical: 6,
+    margin: "5%",
   },
   languageText: {
     fontWeight: "bold",
