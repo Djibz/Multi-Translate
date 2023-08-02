@@ -16,7 +16,12 @@ import TranslationScreen from "./screens/translationScreen";
 import LoginScreen from "./screens/loginScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Provider } from "react-redux";
-import { store } from "./store/token-context";
+import LanguagesScreen from "./screens/languagesScreen";
+import { store } from "./store/store";
+import { Colors } from "./constants/colors";
+import { useState } from "react";
+
+import Icon from "react-native-vector-icons/Ionicons";
 
 const LANGUAGES = [
   { name: "français", code: "fr" },
@@ -27,15 +32,34 @@ const LANGUAGES = [
 export default function App() {
   const [userInfo, setUserInfo] = React.useState(null);
 
+  let count = 0;
+
   const Stack = createNativeStackNavigator();
   const Tab = createMaterialBottomTabNavigator();
 
   function Mains() {
     return (
       <Provider store={store}>
-        <Tab.Navigator>
-          <Tab.Screen name="Translators" component={TranslationScreen} />
-          <Tab.Screen name="languages" component={TranslationScreen} />
+        <Tab.Navigator barStyle={{ backgroundColor: Colors.secondary }}>
+          <Tab.Screen
+            name="Languages"
+            component={LanguagesScreen}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <Icon name="planet-outline" color={color} size={26} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Translators"
+            component={TranslationScreen}
+            initialParams={{ count: count }}
+            options={{
+              tabBarIcon: ({ color }) => (
+                <Icon name="language-outline" color={color} size={26} />
+              ),
+            }}
+          />
         </Tab.Navigator>
       </Provider>
     );
@@ -56,7 +80,7 @@ export default function App() {
             <Stack.Screen
               name="Translator"
               component={Mains}
-              // options={{ headerShown: false }}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </NavigationContainer>

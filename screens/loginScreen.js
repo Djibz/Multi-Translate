@@ -1,11 +1,14 @@
 import { Button, StyleSheet, View } from "react-native";
 import * as Google from "expo-auth-session/providers/google";
 import { Colors } from "../constants/colors";
-import React from "react";
+import React, { useState } from "react";
 import { set } from "../store/token-context";
 import { useDispatch } from "react-redux";
+import LoadingOverlay from "../components/UI/LoadingOverlay";
 
 function LoginScreen({ route, navigation }) {
+  const [isLoading, setIsLoading] = useState(false);
+
   const [request, response, prompAsync] = Google.useAuthRequest({
     androidClientId:
       "423797242227-il4co01numtjcj6tilb0vt66va6bp2qb.apps.googleusercontent.com",
@@ -14,30 +17,28 @@ function LoginScreen({ route, navigation }) {
     scopes: ["https://www.googleapis.com/auth/cloud-translation"],
   });
 
-  function login() {
-    prompAsync();
+  async function login() {
+    setIsLoading(true);
+    await prompAsync();
+    setIsLoading(false);
   }
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    if (response?.type === "success") {
-      console.log(response.authentication.accessToken);
+    if (response && response.type === "success") {
       dispatch(set(response.authentication.accessToken));
-      navigation.navigate("Translator", {
-        token: response.authentication.accessToken,
-      });
+      navigation.navigate("Translator");
     }
   }, [response]);
+
+  if (isLoading) {
+    return <LoadingOverlay />;
+  }
 
   return (
     <View style={styles.container}>
       <Button title="Sign in with google" onPress={login} />
-
-      {/* <Button
-        title="translate"
-        onPress={translate.bind(this, "bonjour", "fr", "pt")}
-      /> */}
     </View>
   );
 }

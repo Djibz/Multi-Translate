@@ -1,4 +1,4 @@
-import { createSlice, configureStore } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const tokenSlice = createSlice({
   name: "token",
@@ -14,9 +14,7 @@ const tokenSlice = createSlice({
 
 export const { set } = tokenSlice.actions;
 
-export const store = configureStore({
-  reducer: tokenSlice.reducer,
-});
+export default tokenSlice.reducer;
 
 // Still pass action objects to `dispatch`, but they're created for us
 // store.dispatch(incremented());

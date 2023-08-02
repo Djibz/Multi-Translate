@@ -15,7 +15,7 @@ export function TranslateCard({
   const [sentence, setSentence] = useState("");
   const [wait, setWait] = useState(null);
 
-  if(passed) {
+  if (passed) {
     setPassed(false);
     onModified(sentence, item.languageCode);
   }
@@ -23,7 +23,7 @@ export function TranslateCard({
   function onChange(text) {
     clearTimeout(wait);
     setSentence(text);
-    setPassed(false)
+    setPassed(false);
 
     setWait(
       setTimeout(() => {
@@ -58,7 +58,6 @@ export function TranslateCard({
       )
         .then((response) => response.json())
         .then((json) => {
-          console.log(json);
           setSentence(json.translations[0].translatedText);
         })
         .catch((error) => {
