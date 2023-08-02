@@ -26,6 +26,7 @@ function TranslationScreen() {
   return (
     <View style={styles.container}>
       <FlatList
+        keyboardShouldPersistTaps={"handled"}
         contentContainerStyle={styles.list}
         style={{ width: "100%" }}
         data={languages}
@@ -55,5 +56,7 @@ const styles = StyleSheet.create({
   list: {
     justifyContent: "center",
     padding: 10,
+    paddingTop: 60,
+    paddingBottom: 500,
   },
 });

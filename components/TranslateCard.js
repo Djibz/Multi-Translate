@@ -84,11 +84,12 @@ export function TranslateCard({
         <View style={styles.card}>
           <Text style={styles.text}>{item.displayName}</Text>
           <TextInput
-            removeClippedSubviews={false}
+            removeClippedSubviews={true}
             style={styles.input}
             onChangeText={onChange}
             value={sentence}
             disableFullscreenUI={true}
+            autoFocus={true}
           />
         </View>
       </MagicBorder>

@@ -35,7 +35,6 @@ function LanguagesScreen() {
   }, []);
 
   let regex = new RegExp(search, "i");
-  console.log(regex);
 
   const languages = useSelector((state) => {
     return state.languages.languages;
