@@ -88,6 +88,7 @@ export function TranslateCard({
             style={styles.input}
             onChangeText={onChange}
             value={sentence}
+            disableFullscreenUI={true}
           />
         </View>
       </MagicBorder>
