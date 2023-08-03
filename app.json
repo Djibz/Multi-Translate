@@ -22,7 +22,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.Djibrilz.MultiTranslator"
+      "package": "com.djibrilz.multitranslator"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -16,6 +16,7 @@ function LoginScreen({ route, navigation }) {
     expoClientId:
       "423797242227-dfp9ujma0g4t0k6ru9l2n6oh7gm8i393.apps.googleusercontent.com",
     scopes: ["https://www.googleapis.com/auth/cloud-translation"],
+    redirectUri: `${AuthSession.makeRedirectUri({ useProxy: true })}`,
   });
 
   async function login() {
