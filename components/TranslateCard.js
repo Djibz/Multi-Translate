@@ -41,11 +41,11 @@ export function TranslateCard({
       }
 
       return await fetch(
-        "https://translation.googleapis.com/v3beta1/projects/423797242227:translateText",
+        "https://translation.googleapis.com/v3beta1/projects/423797242227:translateText?key=AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM",
         {
           method: "POST",
           headers: {
-            Authorization: "Bearer " + token,
+            // Authorization: "Bearer " + token,
             Accept: "application/json",
             "Content-Type": "application/json",
           },

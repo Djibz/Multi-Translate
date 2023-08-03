@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, TextInput, View } from "react-native";
+import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ function LanguagesScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const dispatcher = useDispatch();
 
@@ -26,6 +27,7 @@ function LanguagesScreen() {
         dispatcher(setLanguages(languages));
       } catch (error) {
         console.log(error);
+        setErrorMsg(error.message);
       }
 
       setIsLoading(false);
@@ -67,6 +69,7 @@ function LanguagesScreen() {
           onChangeText={(text) => setSearch(text)}
         />
       </View>
+      {/* <Text style={{ color: "white" }}>{errorMsg}</Text> */}
       <FlatList
         contentContainerStyle={{ alignItems: "stretch" }}
         style={styles.list}
