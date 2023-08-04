@@ -13,12 +13,7 @@ function TranslationScreen() {
     return state.languages.languages;
   }).filter((item) => item.activated);
 
-  const token = useSelector((state) => {
-    return state.token.token;
-  });
-
   function onModified(text, source) {
-    console.log(source, text);
     setSource(source);
     setSentence(text);
   }
@@ -35,7 +30,6 @@ function TranslationScreen() {
             item={item.item}
             sourceSentence={sentence}
             sourceLanguage={source}
-            token={token}
             onModified={onModified}
           />
         )}

@@ -11,19 +11,15 @@ function LanguagesScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState(null);
 
   const dispatcher = useDispatch();
-
-  const token = useSelector((state) => {
-    return state.token.token;
-  });
 
   useEffect(() => {
     async function getL() {
       setIsLoading(true);
       try {
-        const languages = await getAllLanguages(token);
+        const languages = await getAllLanguages();
         dispatcher(setLanguages(languages));
       } catch (error) {
         setErrorMsg(error);
@@ -65,7 +61,7 @@ function LanguagesScreen() {
           onChangeText={(text) => setSearch(text)}
         />
       </View>
-      {/* <Text style={{ color: "white" }}>{errorMsg}</Text> */}
+      {errorMsg && <Text style={{ color: "white" }}>{errorMsg}</Text>}
       <FlatList
         contentContainerStyle={{ alignItems: "stretch" }}
         style={styles.list}
