@@ -16,9 +16,6 @@ export function TranslateCard({
   const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState(false);
   const [sentence, setSentence] = useState("");
-  // const [wait, setWait] = useState(null);
-
-  console.log(`Rendering ${item.name}`);
 
   if (passed) {
     setPassed(false);
@@ -31,7 +28,6 @@ export function TranslateCard({
     setPassed(false);
 
     wait = setTimeout(() => {
-      console.log(sentence);
       setPassed(true);
     }, 500);
   }
@@ -39,7 +35,6 @@ export function TranslateCard({
   useEffect(() => {
     async function translateText() {
       if (sourceLanguage === item.language) return;
-      console.log(`Translating ${item.name}`);
 
       setLoading(true);
       try {
@@ -50,7 +45,7 @@ export function TranslateCard({
         );
         setSentence(text);
       } catch (error) {
-        console.log(error.toJSON());
+        // console.log(error.toJSON());
       }
 
       setLoading(false);

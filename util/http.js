@@ -5,7 +5,7 @@ const baseUrl = "https://translation.googleapis.com/language/translate/v2";
 const apiKey = "AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM";
 
 export async function getAllLanguages(token) {
-  console.log(`${new Date()} : Getting all Languages`);
+  // console.log(`${new Date()} : Getting all Languages`);
 
   return axios
     .get(`${baseUrl}/languages?target=fr&key=${apiKey}`, {
