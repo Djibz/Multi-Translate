@@ -24,13 +24,10 @@ function LanguagesScreen() {
       setIsLoading(true);
       try {
         const languages = await getAllLanguages(token);
-        console.log(languages);
         dispatcher(setLanguages(languages));
       } catch (error) {
-        console.log(error);
-        setErrorMsg(error.message);
+        setErrorMsg(error);
       }
-
       setIsLoading(false);
     }
 

@@ -2,18 +2,23 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
+import { translate } from "../util/http";
+import { ProgressBar } from "react-native-paper";
+
+let wait = null;
 
 export function TranslateCard({
   item,
   sourceSentence,
   sourceLanguage,
-  token,
   onModified,
 }) {
   const [loading, setLoading] = useState(true);
   const [passed, setPassed] = useState(false);
   const [sentence, setSentence] = useState("");
-  const [wait, setWait] = useState(null);
+  // const [wait, setWait] = useState(null);
+
+  console.log(`Rendering ${item.name}`);
 
   if (passed) {
     setPassed(false);
@@ -25,56 +30,34 @@ export function TranslateCard({
     setSentence(text);
     setPassed(false);
 
-    setWait(
-      setTimeout(() => {
-        console.log(sentence);
-        setPassed(true);
-      }, 1500)
-    );
+    wait = setTimeout(() => {
+      console.log(sentence);
+      setPassed(true);
+    }, 500);
   }
 
   useEffect(() => {
-    async function translate(text, source, target, token) {
-      if (source === target) {
+    async function translateText() {
+      if (sourceLanguage === item.language) return;
+      console.log(`Translating ${item.name}`);
+
+      setLoading(true);
+      try {
+        const text = await translate(
+          sourceSentence,
+          sourceLanguage,
+          item.language
+        );
         setSentence(text);
-        return;
+      } catch (error) {
+        console.log(error.toJSON());
       }
 
-      return await fetch(
-        `https://translation.googleapis.com/language/translate/v2?key=AIzaSyAGGja7ddfN6KLXwIQWO1A1b41ruRWDF-4&target=${target}&source=${source}`,
-        {
-          method: "POST",
-          headers: {
-            // Authorization: "Bearer " + token,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            q: [text, "Monsieur"],
-            source: source,
-            target: target,
-            format: "text",
-          }),
-        }
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          console.log(json.data);
-          setSentence(json.data.translations[0].translatedText);
-        })
-        .catch((error) => {
-          setSentence("");
-        });
+      setLoading(false);
     }
 
-    setLoading(true);
-    translate(sourceSentence, sourceLanguage, item.language, token);
-    setLoading(false);
+    translateText();
   }, [sourceSentence, sourceLanguage]);
-
-  if (loading) {
-    return <></>;
-  }
 
   return (
     <View style={styles.mainContainer}>
@@ -89,6 +72,14 @@ export function TranslateCard({
       >
         <View style={styles.card}>
           <Text style={styles.text}>{item.name}</Text>
+          {loading && (
+            <ProgressBar
+              style={[{ borderRadius: 4 }]}
+              styleAttr="Horizontal"
+              indeterminate={true}
+              color={Colors.thirdly}
+            />
+          )}
           <TextInput
             removeClippedSubviews={true}
             style={styles.input}
