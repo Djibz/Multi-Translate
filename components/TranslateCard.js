@@ -17,7 +17,7 @@ export function TranslateCard({
 
   if (passed) {
     setPassed(false);
-    onModified(sentence, item.languageCode);
+    onModified(sentence, item.language);
   }
 
   function onChange(text) {
@@ -41,7 +41,7 @@ export function TranslateCard({
       }
 
       return await fetch(
-        "https://translation.googleapis.com/v3beta1/projects/423797242227:translateText?key=AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM",
+        `https://translation.googleapis.com/language/translate/v2?key=AIzaSyAGGja7ddfN6KLXwIQWO1A1b41ruRWDF-4&target=${target}&source=${source}`,
         {
           method: "POST",
           headers: {
@@ -50,15 +50,17 @@ export function TranslateCard({
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            contents: [text],
-            sourceLanguageCode: source,
-            targetLanguageCode: target,
+            q: [text, "Monsieur"],
+            source: source,
+            target: target,
+            format: "text",
           }),
         }
       )
         .then((response) => response.json())
         .then((json) => {
-          setSentence(json.translations[0].translatedText);
+          console.log(json.data);
+          setSentence(json.data.translations[0].translatedText);
         })
         .catch((error) => {
           setSentence("");
@@ -66,7 +68,7 @@ export function TranslateCard({
     }
 
     setLoading(true);
-    translate(sourceSentence, sourceLanguage, item.languageCode, token);
+    translate(sourceSentence, sourceLanguage, item.language, token);
     setLoading(false);
   }, [sourceSentence, sourceLanguage]);
 
@@ -79,10 +81,14 @@ export function TranslateCard({
       <MagicBorder
         radius={4}
         width={4}
-        image={{ uri: `https://flagcdn.com/h240/${item.languageCode}.png` }}
+        image={{
+          uri: `https://flagcdn.com/h240/${
+            item.language === "en" ? "gb" : item.language
+          }.png`,
+        }}
       >
         <View style={styles.card}>
-          <Text style={styles.text}>{item.displayName}</Text>
+          <Text style={styles.text}>{item.name}</Text>
           <TextInput
             removeClippedSubviews={true}
             style={styles.input}

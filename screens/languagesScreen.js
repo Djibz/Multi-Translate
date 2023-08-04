@@ -24,6 +24,7 @@ function LanguagesScreen() {
       setIsLoading(true);
       try {
         const languages = await getAllLanguages(token);
+        console.log(languages);
         dispatcher(setLanguages(languages));
       } catch (error) {
         console.log(error);
@@ -40,9 +41,7 @@ function LanguagesScreen() {
 
   const languages = useSelector((state) => {
     return state.languages.languages;
-  }).filter((item) =>
-    search === "" ? true : item.displayName.search(regex) >= 0
-  );
+  }).filter((item) => (search === "" ? true : item.name.search(regex) >= 0));
 
   if (isLoading) {
     return <LoadingOverlay />;
