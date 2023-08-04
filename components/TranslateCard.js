@@ -13,7 +13,7 @@ export function TranslateCard({
   sourceLanguage,
   onModified,
 }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState(false);
   const [sentence, setSentence] = useState("");
   // const [wait, setWait] = useState(null);
