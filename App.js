@@ -13,7 +13,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TranslationScreen from "./screens/translationScreen";
-import LoginScreen from "./screens/loginScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Provider } from "react-redux";
 import LanguagesScreen from "./screens/languagesScreen";
@@ -76,12 +75,6 @@ export default function App() {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-
             <Stack.Screen
               name="Translator"
               component={Mains}

@@ -2,22 +2,27 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
+import { translate } from "../util/http";
+import { ProgressBar } from "react-native-paper";
+
+let wait = null;
 
 export function TranslateCard({
   item,
   sourceSentence,
   sourceLanguage,
-  token,
   onModified,
 }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState(false);
   const [sentence, setSentence] = useState("");
-  const [wait, setWait] = useState(null);
+  // const [wait, setWait] = useState(null);
+
+  console.log(`Rendering ${item.name}`);
 
   if (passed) {
     setPassed(false);
-    onModified(sentence, item.languageCode);
+    onModified(sentence, item.language);
   }
 
   function onChange(text) {
@@ -25,64 +30,56 @@ export function TranslateCard({
     setSentence(text);
     setPassed(false);
 
-    setWait(
-      setTimeout(() => {
-        console.log(sentence);
-        setPassed(true);
-      }, 1500)
-    );
+    wait = setTimeout(() => {
+      console.log(sentence);
+      setPassed(true);
+    }, 500);
   }
 
   useEffect(() => {
-    async function translate(text, source, target, token) {
-      if (source === target) {
+    async function translateText() {
+      if (sourceLanguage === item.language) return;
+      console.log(`Translating ${item.name}`);
+
+      setLoading(true);
+      try {
+        const text = await translate(
+          sourceSentence,
+          sourceLanguage,
+          item.language
+        );
         setSentence(text);
-        return;
+      } catch (error) {
+        console.log(error.toJSON());
       }
 
-      return await fetch(
-        "https://translation.googleapis.com/v3beta1/projects/423797242227:translateText?key=AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM",
-        {
-          method: "POST",
-          headers: {
-            // Authorization: "Bearer " + token,
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contents: [text],
-            sourceLanguageCode: source,
-            targetLanguageCode: target,
-          }),
-        }
-      )
-        .then((response) => response.json())
-        .then((json) => {
-          setSentence(json.translations[0].translatedText);
-        })
-        .catch((error) => {
-          setSentence("");
-        });
+      setLoading(false);
     }
 
-    setLoading(true);
-    translate(sourceSentence, sourceLanguage, item.languageCode, token);
-    setLoading(false);
+    translateText();
   }, [sourceSentence, sourceLanguage]);
-
-  if (loading) {
-    return <></>;
-  }
 
   return (
     <View style={styles.mainContainer}>
       <MagicBorder
         radius={4}
         width={4}
-        image={{ uri: `https://flagcdn.com/h240/${item.languageCode}.png` }}
+        image={{
+          uri: `https://flagcdn.com/h240/${
+            item.language === "en" ? "gb" : item.language
+          }.png`,
+        }}
       >
         <View style={styles.card}>
-          <Text style={styles.text}>{item.displayName}</Text>
+          <Text style={styles.text}>{item.name}</Text>
+          {loading && (
+            <ProgressBar
+              style={[{ borderRadius: 4 }]}
+              styleAttr="Horizontal"
+              indeterminate={true}
+              color={Colors.thirdly}
+            />
+          )}
           <TextInput
             removeClippedSubviews={true}
             style={styles.input}

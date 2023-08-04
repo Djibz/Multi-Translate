@@ -26,10 +26,8 @@ function LanguagesScreen() {
         const languages = await getAllLanguages(token);
         dispatcher(setLanguages(languages));
       } catch (error) {
-        console.log(error);
-        setErrorMsg(error.message);
+        setErrorMsg(error);
       }
-
       setIsLoading(false);
     }
 
@@ -40,9 +38,7 @@ function LanguagesScreen() {
 
   const languages = useSelector((state) => {
     return state.languages.languages;
-  }).filter((item) =>
-    search === "" ? true : item.displayName.search(regex) >= 0
-  );
+  }).filter((item) => (search === "" ? true : item.name.search(regex) >= 0));
 
   if (isLoading) {
     return <LoadingOverlay />;

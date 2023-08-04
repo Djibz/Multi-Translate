@@ -10,7 +10,7 @@ function LanguageCard({ item, onClick }) {
       ]}
       onPress={onClick}
     >
-      <Text style={styles.languageText}>{item.item.displayName}</Text>
+      <Text style={styles.languageText}>{item.item.name}</Text>
     </Pressable>
   );
 }
