@@ -18,13 +18,14 @@ export function MagicBorder({
         source={image}
         style={[styles.border, style, { borderRadius: radius }]}
       >
-        {loading && (
+        {
           <ProgressBar
             style={[styles.progressBar, { borderRadius: radius }]}
-            indeterminate={true}
+            progress={loading ? 1 : 0}
+            indeterminate={false}
             color={"white"}
           />
-        )}
+        }
         <View style={{ margin: width }}>{children}</View>
       </ImageBackground>
     </>
@@ -39,6 +40,6 @@ const styles = StyleSheet.create({
   progressBar: {
     height: 108,
     position: "absolute",
-    backgroundColor: Colors.thirdly + "80",
+    backgroundColor: "#00000000",
   },
 });
