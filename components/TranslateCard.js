@@ -86,7 +86,6 @@ export function TranslateCard({
             value={sentence}
             disableFullscreenUI={true}
             autoFocus={true}
-            showSoftInputOnFocus={false}
           />
         </View>
       </MagicBorder>

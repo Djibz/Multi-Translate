@@ -3,7 +3,7 @@ import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllLanguages } from "../util/http";
-import { setLanguages, swicthLanguage } from "../store/languages-context";
+import { setLanguages } from "../store/languages-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
 
@@ -40,9 +40,14 @@ function LanguagesScreen() {
     return <LoadingOverlay />;
   }
 
-  function onClick(item) {
-    setLCount((current) => current + 1);
-    dispatcher(swicthLanguage(item.language));
+  function onClick(index) {
+    if (languages[index].activated) {
+      setLCount((current) => current - 1);
+      languages[index].activated = false;
+    } else {
+      setLCount((current) => current + 1);
+      languages[index].activated = true;
+    }
   }
 
   return (
@@ -62,7 +67,7 @@ function LanguagesScreen() {
         style={styles.list}
         data={languages}
         renderItem={(item) => (
-          <LanguageCard item={item} onClick={onClick.bind(this, item.item)} />
+          <LanguageCard item={item} onClick={onClick.bind(this, item.index)} />
         )}
       />
     </View>
