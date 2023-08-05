@@ -22,8 +22,7 @@ export function MagicBorder({
           <ProgressBar
             style={[styles.progressBar, { borderRadius: radius }]}
             progress={loading ? 1 : 0}
-            indeterminate={false}
-            color={"white"}
+            color={"#ffffff40"}
           />
         }
         <View style={{ margin: width }}>{children}</View>
