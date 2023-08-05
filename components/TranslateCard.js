@@ -3,7 +3,8 @@ import { MagicBorder } from "./MagicBorder";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { translate } from "../util/http";
-import { ProgressBar } from "react-native-paper";
+import { IconButton, ProgressBar } from "react-native-paper";
+import RoundIconButton from "./RoundIconButton";
 
 let wait = null;
 
@@ -12,6 +13,7 @@ export function TranslateCard({
   sourceSentence,
   sourceLanguage,
   onModified,
+  deleteItem,
 }) {
   const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState(false);
@@ -67,7 +69,16 @@ export function TranslateCard({
         loading={loading}
       >
         <View style={styles.card}>
-          <Text style={styles.text}>{item.name}</Text>
+          <View style={styles.topContainer}>
+            <Text style={styles.text}>{item.name}</Text>
+            <RoundIconButton
+              name="close"
+              color={Colors.thirdly}
+              iconColor={Colors.secondary}
+              style={styles.button}
+              onPress={deleteItem}
+            />
+          </View>
           <TextInput
             removeClippedSubviews={true}
             style={styles.input}
@@ -75,6 +86,7 @@ export function TranslateCard({
             value={sentence}
             disableFullscreenUI={true}
             autoFocus={true}
+            showSoftInputOnFocus={false}
           />
         </View>
       </MagicBorder>
@@ -89,7 +101,7 @@ const styles = StyleSheet.create({
   },
   card: {
     backgroundColor: Colors.secondary,
-    padding: 10,
+    padding: 8,
     height: 100,
     width: "100%",
     borderRadius: 4,
@@ -97,12 +109,18 @@ const styles = StyleSheet.create({
   text: {
     flex: 1,
     color: "white",
+    fontWeight: "bold",
   },
   input: {
     borderRadius: 4,
     padding: 4,
     overflow: "hidden",
-    backgroundColor: "#40444b",
+    // backgroundColor: "#40444b",
+    backgroundColor: Colors.thirdly,
     color: "white",
+  },
+  topContainer: {
+    flex: 1,
+    flexDirection: "row",
   },
 });
