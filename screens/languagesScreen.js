@@ -26,7 +26,6 @@ function LanguagesScreen() {
         ).split(",");
         languages.forEach((element) => {
           if (activated.includes(element.language)) {
-            console.log(element);
             element.activated = true;
           }
         });
