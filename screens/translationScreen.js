@@ -5,6 +5,7 @@ import { Colors } from "../constants/colors";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { swicthLanguage } from "../store/languages-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function TranslationScreen() {
   const [sentence, setSentence] = useState("Bonjour");
@@ -14,6 +15,18 @@ function TranslationScreen() {
   const languages = useSelector((state) => {
     return state.languages.languages;
   }).filter((item) => item.activated);
+
+  async function saveLanguages() {
+    try {
+      await AsyncStorage.setItem(
+        "activated",
+        languages.map((l) => l.language).toString()
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  saveLanguages();
 
   function onModified(text, source) {
     setSource(source);

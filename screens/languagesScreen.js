@@ -6,6 +6,7 @@ import { getAllLanguages } from "../util/http";
 import { setLanguages } from "../store/languages-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function LanguagesScreen() {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,6 +21,15 @@ function LanguagesScreen() {
       setIsLoading(true);
       try {
         const languages = await getAllLanguages();
+        const activated = (
+          (await AsyncStorage.getItem("activated")) ?? ""
+        ).split(",");
+        languages.forEach((element) => {
+          if (activated.includes(element.language)) {
+            console.log(element);
+            element.activated = true;
+          }
+        });
         dispatcher(setLanguages(languages));
       } catch (error) {
         setErrorMsg(error);

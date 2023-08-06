@@ -11,7 +11,6 @@ import { StatusBar } from "expo-status-bar";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import TranslationScreen from "./screens/translationScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import { Provider } from "react-redux";
