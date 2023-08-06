@@ -4,14 +4,14 @@
     "slug": "Translator",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./logo/white/WhiteInBlack.png",
     "userInterfaceStyle": "light",
     "backgroundColor": "#000000",
     "scheme": "translator",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./logo/white/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#000000"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
@@ -19,8 +19,8 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./logo/white/logo2white.png",
+        "backgroundColor": "#000000"
       },
       "package": "com.djibrilz.multitranslator"
     },
