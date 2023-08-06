@@ -64,17 +64,10 @@ export function TranslateCard({
             item.language === "en" ? "gb" : item.language
           }.png`,
         }}
+        loading={loading}
       >
         <View style={styles.card}>
           <Text style={styles.text}>{item.name}</Text>
-          {loading && (
-            <ProgressBar
-              style={[{ borderRadius: 4 }]}
-              styleAttr="Horizontal"
-              indeterminate={true}
-              color={Colors.thirdly}
-            />
-          )}
           <TextInput
             removeClippedSubviews={true}
             style={styles.input}
