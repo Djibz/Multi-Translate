@@ -12,12 +12,16 @@ const languagesSlice = createSlice({
         lang.activated = false;
       });
     },
-    activateLanguage: (state, action) => {
-      state.languages[action.payload].activated = true;
+    swicthLanguage: (state, action) => {
+      state.languages.forEach((language) => {
+        if (language.language === action.payload) {
+          language.activated = !language.activated;
+        }
+      });
     },
   },
 });
 
-export const { setLanguages, activateLanguage } = languagesSlice.actions;
+export const { setLanguages, swicthLanguage } = languagesSlice.actions;
 
 export default languagesSlice.reducer;
