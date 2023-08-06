@@ -3,19 +3,41 @@ import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { Colors } from "../constants/colors";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { swicthLanguage } from "../store/languages-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function TranslationScreen() {
   const [sentence, setSentence] = useState("Bonjour");
   const [source, setSource] = useState("fr");
+  const [counter, setCounter] = useState(0);
 
   const languages = useSelector((state) => {
     return state.languages.languages;
   }).filter((item) => item.activated);
 
+  async function saveLanguages() {
+    try {
+      await AsyncStorage.setItem(
+        "activated",
+        languages.map((l) => l.language).toString()
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  saveLanguages();
+
   function onModified(text, source) {
     setSource(source);
     setSentence(text);
+  }
+
+  const dispatcher = useDispatch();
+
+  function deleteItem(languageCode) {
+    dispatcher(swicthLanguage(languageCode));
+    setCounter((cur) => cur + 1);
   }
 
   return (
@@ -31,6 +53,7 @@ function TranslationScreen() {
             sourceSentence={sentence}
             sourceLanguage={source}
             onModified={onModified}
+            deleteItem={deleteItem.bind(this, item.item.language)}
           />
         )}
       />
