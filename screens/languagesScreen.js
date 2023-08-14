@@ -8,7 +8,7 @@ import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function LanguagesScreen() {
+function LanguagesScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
@@ -19,23 +19,30 @@ function LanguagesScreen() {
   useEffect(() => {
     async function getL() {
       setIsLoading(true);
+      let saved = false;
+
       try {
         const languages = await getAllLanguages();
+
         const activated = (
           (await AsyncStorage.getItem("activated")) ?? ""
         ).split(",");
-        console.log(activated);
-        setErrorMsg(activated);
         languages.forEach((element) => {
           if (activated.includes(element.language)) {
             element["activated"] = true;
           }
         });
+
+        saved = activated.length > 0;
+
         dispatcher(setLanguages(languages));
       } catch (error) {
         setErrorMsg(error);
       }
       setIsLoading(false);
+      if (saved) {
+        navigation.navigate("Translators");
+      }
     }
 
     getL();
