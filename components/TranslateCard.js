@@ -3,8 +3,8 @@ import { MagicBorder } from "./MagicBorder";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { translate } from "../util/http";
-import { IconButton, ProgressBar } from "react-native-paper";
-import RoundIconButton from "./RoundIconButton";
+import RoundIconButton from "./Buttons/RoundIconButton";
+import ClearButton from "./Buttons/ClearButton";
 
 let wait = null;
 
@@ -89,6 +89,11 @@ export function TranslateCard({
             disableFullscreenUI={true}
             autoFocus={true}
           />
+          <ClearButton
+            style={styles.clearButton}
+            size={24}
+            onPress={() => onChange("")}
+          />
         </View>
       </MagicBorder>
     </View>
@@ -115,6 +120,7 @@ const styles = StyleSheet.create({
   input: {
     borderRadius: 4,
     padding: 4,
+    paddingHorizontal: 8,
     overflow: "hidden",
     // backgroundColor: "#40444b",
     backgroundColor: Colors.thirdly,
@@ -123,5 +129,12 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     flexDirection: "row",
+  },
+  clearButton: {
+    position: "absolute",
+    alignSelf: "flex-end",
+    marginRight: 8,
+    paddingRight: 12,
+    bottom: 12,
   },
 });

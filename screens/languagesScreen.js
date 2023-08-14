@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { FlatList, StyleSheet, TextInput, View } from "react-native";
 import { Colors } from "../constants/colors";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,7 @@ import { setLanguages } from "../store/languages-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ClearButton from "../components/Buttons/ClearButton";
 
 function LanguagesScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -97,6 +98,11 @@ function LanguagesScreen({ navigation }) {
           value={search}
           onChangeText={(text) => setSearch(text)}
         />
+        <ClearButton
+          style={styles.clearButton}
+          size={24}
+          onPress={() => setSearch("")}
+        />
       </View>
       {/* {errorMsg && <Text style={{ color: "white" }}>{errorMsg}</Text>} */}
       <FlatList
@@ -131,14 +137,21 @@ const styles = StyleSheet.create({
     color: "white",
     height: 40,
     borderRadius: 4,
-    marginBottom: 8,
+    // marginBottom: 8,
     paddingHorizontal: 16,
   },
   inputContainer: {
     flexDirection: "column-reverse",
     backgroundColor: Colors.secondary,
     width: "100%",
+    justifyContent: "center",
     alignItems: "center",
     height: 60,
+  },
+  clearButton: {
+    position: "absolute",
+    alignSelf: "flex-end",
+    marginRight: "5%",
+    paddingRight: 16,
   },
 });

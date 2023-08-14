@@ -24,6 +24,10 @@ export async function translate(text, source, target) {
     return text;
   }
 
+  if (text === "") {
+    return text;
+  }
+
   return axios
     .post(
       `${baseUrl}?key=${apiKey}`,

@@ -1,5 +1,5 @@
 import { Pressable, StyleSheet, Text } from "react-native";
-import { Colors } from "../constants/colors";
+import { Colors } from "../../constants/colors";
 
 function AddButton({ onPress }) {
   return (
