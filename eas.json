@@ -5,6 +5,10 @@
   "build": {
     "development": {
       "distribution": "internal",
+      "env": {
+        "ANDROID_HOME": "/home/erwan/Android/sdk",
+        "ANDROID_NDK_HOME": "/home/erwan/Android/sdk/ndk"
+      },
       "android": {
         "gradleCommand": ":app:assembleDebug"
       },
@@ -13,9 +17,18 @@
       }
     },
     "preview": {
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "ANDROID_HOME": "/home/erwan/Android/sdk",
+        "ANDROID_NDK_HOME": "/home/erwan/Android/sdk/ndk"
+      }
     },
-    "production": {}
+    "production": {
+      "env": {
+        "ANDROID_HOME": "/home/erwan/Android/sdk",
+        "ANDROID_NDK_HOME": "/home/erwan/Android/sdk/ndk"
+      }
+    }
   },
   "submit": {
     "production": {}
