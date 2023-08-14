@@ -41,35 +41,25 @@ function LanguagesScreen() {
     getL();
   }, []);
 
-  async function onRender() {
-    try {
-      const activated = await AsyncStorage.getItem("activated");
-      setErrorMsg(activated);
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  // onRender();
-
   let regex = new RegExp(search, "i");
 
   const languages = useSelector((state) => {
     return state.languages.languages;
-  }).filter((item) => (search === "" ? true : item.name.search(regex) >= 0));
+  });
 
   if (isLoading) {
     return <LoadingOverlay />;
   }
 
+  const filteredLanguages = languages.filter((item) =>
+    search === "" ? true : item.name.search(regex) >= 0
+  );
+
   function saveLanguages() {
-    const ls = useSelector((state) => {
-      return state.languages.languages;
-    });
     try {
       AsyncStorage.setItem(
         "activated",
-        ls
+        languages
           .filter((l) => l.activated)
           .map((l) => l.language)
           .toString()
@@ -80,12 +70,12 @@ function LanguagesScreen() {
   }
 
   function onClick(index) {
-    if (languages[index].activated) {
+    if (filteredLanguages[index].activated) {
       setLCount((current) => current - 1);
-      languages[index].activated = false;
+      filteredLanguages[index].activated = false;
     } else {
       setLCount((current) => current + 1);
-      languages[index].activated = true;
+      filteredLanguages[index].activated = true;
     }
     saveLanguages();
   }
@@ -101,12 +91,12 @@ function LanguagesScreen() {
           onChangeText={(text) => setSearch(text)}
         />
       </View>
-      {errorMsg && <Text style={{ color: "white" }}>{errorMsg}</Text>}
+      {/* {errorMsg && <Text style={{ color: "white" }}>{errorMsg}</Text>} */}
       <FlatList
         keyboardShouldPersistTaps="always"
         contentContainerStyle={{ alignItems: "stretch" }}
         style={styles.list}
-        data={languages}
+        data={filteredLanguages}
         renderItem={(item) => (
           <LanguageCard item={item} onClick={onClick.bind(this, item.index)} />
         )}
