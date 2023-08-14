@@ -72,6 +72,7 @@ function LanguagesScreen() {
       </View>
       {errorMsg && <Text style={{ color: "white" }}>{errorMsg}</Text>}
       <FlatList
+        keyboardShouldPersistTaps="always"
         contentContainerStyle={{ alignItems: "stretch" }}
         style={styles.list}
         data={languages}
