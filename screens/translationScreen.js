@@ -43,7 +43,7 @@ function TranslationScreen() {
   return (
     <View style={styles.container}>
       <FlatList
-        keyboardShouldPersistTaps={"handled"}
+        keyboardShouldPersistTaps={"always"}
         contentContainerStyle={styles.list}
         style={{ width: "100%" }}
         data={languages}

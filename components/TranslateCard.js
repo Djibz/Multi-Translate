@@ -72,14 +72,16 @@ export function TranslateCard({
           <View style={styles.topContainer}>
             <Text style={styles.text}>{item.name}</Text>
             <RoundIconButton
-              name="close"
-              color={Colors.thirdly}
-              iconColor={Colors.secondary}
+              name="trash"
+              color="#00000000"
+              iconColor="red"
               style={styles.button}
               onPress={deleteItem}
             />
           </View>
           <TextInput
+            placeholder="Type here..."
+            placeholderTextColor="#777777"
             removeClippedSubviews={true}
             style={styles.input}
             onChangeText={onChange}
