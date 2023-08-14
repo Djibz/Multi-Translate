@@ -24,9 +24,11 @@ function LanguagesScreen() {
         const activated = (
           (await AsyncStorage.getItem("activated")) ?? ""
         ).split(",");
+        console.log(activated);
+        setErrorMsg(activated);
         languages.forEach((element) => {
           if (activated.includes(element.language)) {
-            element.activated = true;
+            element["activated"] = true;
           }
         });
         dispatcher(setLanguages(languages));
@@ -39,6 +41,17 @@ function LanguagesScreen() {
     getL();
   }, []);
 
+  async function onRender() {
+    try {
+      const activated = await AsyncStorage.getItem("activated");
+      setErrorMsg(activated);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  // onRender();
+
   let regex = new RegExp(search, "i");
 
   const languages = useSelector((state) => {
@@ -49,6 +62,23 @@ function LanguagesScreen() {
     return <LoadingOverlay />;
   }
 
+  function saveLanguages() {
+    const ls = useSelector((state) => {
+      return state.languages.languages;
+    });
+    try {
+      AsyncStorage.setItem(
+        "activated",
+        ls
+          .filter((l) => l.activated)
+          .map((l) => l.language)
+          .toString()
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   function onClick(index) {
     if (languages[index].activated) {
       setLCount((current) => current - 1);
@@ -57,6 +87,7 @@ function LanguagesScreen() {
       setLCount((current) => current + 1);
       languages[index].activated = true;
     }
+    saveLanguages();
   }
 
   return (
