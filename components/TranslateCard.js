@@ -79,21 +79,23 @@ export function TranslateCard({
               onPress={deleteItem}
             />
           </View>
-          <TextInput
-            placeholder="Type here..."
-            placeholderTextColor="#777777"
-            removeClippedSubviews={true}
-            style={styles.input}
-            onChangeText={onChange}
-            value={sentence}
-            disableFullscreenUI={true}
-            autoFocus={true}
-          />
-          <ClearButton
-            style={styles.clearButton}
-            size={24}
-            onPress={() => onChange("")}
-          />
+          <View style={styles.inputContainer}>
+            <TextInput
+              placeholder="Type here..."
+              placeholderTextColor="#777777"
+              removeClippedSubviews={true}
+              style={styles.input}
+              onChangeText={onChange}
+              value={sentence}
+              disableFullscreenUI={true}
+              autoFocus={true}
+            />
+            <ClearButton
+              style={styles.clearButton}
+              size={24}
+              onPress={() => onChange("")}
+            />
+          </View>
         </View>
       </MagicBorder>
     </View>
@@ -117,6 +119,10 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
   },
+  inputContainer: {
+    width: "100%",
+    justifyContent: "center",
+  },
   input: {
     borderRadius: 4,
     padding: 4,
@@ -125,6 +131,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "#40444b",
     backgroundColor: Colors.thirdly,
     color: "white",
+    minHeight: 48,
+    paddingRight: 48,
   },
   topContainer: {
     flex: 1,
@@ -133,8 +141,6 @@ const styles = StyleSheet.create({
   clearButton: {
     position: "absolute",
     alignSelf: "flex-end",
-    marginRight: 8,
-    paddingRight: 12,
-    bottom: 12,
+    padding: 12,
   },
 });

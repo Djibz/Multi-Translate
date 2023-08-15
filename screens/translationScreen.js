@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { Colors } from "../constants/colors";
@@ -6,8 +6,9 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { swicthLanguage } from "../store/languages-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import CustomButton from "../components/Buttons/CustomButton";
 
-function TranslationScreen() {
+function TranslationScreen({ navigation }) {
   const [sentence, setSentence] = useState("Bonjour");
   const [source, setSource] = useState("fr");
   const [counter, setCounter] = useState(0);
@@ -38,6 +39,17 @@ function TranslationScreen() {
   function deleteItem(languageCode) {
     dispatcher(swicthLanguage(languageCode));
     setCounter((cur) => cur + 1);
+  }
+
+  if (!languages.length) {
+    return (
+      <View style={styles.container}>
+        <CustomButton
+          text="Select languages"
+          onPress={() => navigation.navigate("Languages")}
+        />
+      </View>
+    );
   }
 
   return (
