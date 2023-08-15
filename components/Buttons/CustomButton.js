@@ -3,7 +3,10 @@ import { Colors } from "../../constants/colors";
 
 function CustomButton({ text, activated, style, ...props }) {
   return (
-    <Pressable {...props} style={[styles.container, style]}>
+    <Pressable
+      {...props}
+      style={[styles.container, style, { borderWidth: activated ? 2 : 0 }]}
+    >
       <Text style={{ color: "white" }}>{text}</Text>
     </Pressable>
   );
@@ -20,5 +23,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 8,
+    borderColor: "green",
   },
 });
