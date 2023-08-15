@@ -2,16 +2,19 @@ import { Button, StyleSheet, Text, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { Colors } from "../constants/colors";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { swicthLanguage } from "../store/languages-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../components/Buttons/CustomButton";
+import { ThemeContext } from "../store/themeContext";
 
 function TranslationScreen({ navigation }) {
   const [sentence, setSentence] = useState("Bonjour");
   const [source, setSource] = useState("fr");
   const [counter, setCounter] = useState(0);
+
+  const theme = useContext(ThemeContext);
 
   const languages = useSelector((state) => {
     return state.languages.languages;
@@ -53,7 +56,7 @@ function TranslationScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <FlatList
         keyboardShouldPersistTaps={"always"}
         contentContainerStyle={styles.list}
@@ -78,14 +81,13 @@ export default TranslationScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.primary,
     alignItems: "center",
     justifyContent: "center",
   },
   list: {
     justifyContent: "center",
     padding: 10,
-    paddingTop: 60,
+    paddingTop: 30,
     paddingBottom: 500,
   },
 });

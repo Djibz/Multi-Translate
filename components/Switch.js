@@ -1,4 +1,4 @@
-import { FlatList } from "react-native";
+import { FlatList, StyleSheet } from "react-native";
 import CustomButton from "./Buttons/CustomButton";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
@@ -51,19 +51,29 @@ function Switch({ style }) {
         text="Phone settings"
         onPress={() => changeTheme("auto", this)}
         activated={themes["auto"]}
+        style={styles.button}
       />
       <CustomButton
         text="Light theme"
         onPress={() => changeTheme("light", this)}
         activated={themes["light"]}
+        style={styles.button}
       />
       <CustomButton
         text="Dark theme"
         onPress={() => changeTheme("dark", this)}
         activated={themes["dark"]}
+        style={styles.button}
       />
     </View>
   );
 }
 
 export default Switch;
+
+const styles = StyleSheet.create({
+  button: {
+    marginVertical: 8,
+    height: 64,
+  },
+});

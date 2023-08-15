@@ -1,9 +1,13 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Colors } from "../../constants/colors";
+import { useContext } from "react";
+import { ThemeContext } from "../../store/themeContext";
 
 function LoadingOverlay() {
+  const theme = useContext(ThemeContext);
+
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
       <ActivityIndicator />
     </View>
   );
@@ -17,6 +21,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 24,
-    backgroundColor: Colors.primary,
+    backgroundColor: "black",
   },
 });

@@ -1,10 +1,11 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
 import { Colors } from "../constants/colors";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { translate } from "../util/http";
 import RoundIconButton from "./Buttons/RoundIconButton";
 import ClearButton from "./Buttons/ClearButton";
+import { ThemeContext } from "../store/themeContext";
 
 let wait = null;
 
@@ -18,6 +19,8 @@ export function TranslateCard({
   const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState(false);
   const [sentence, setSentence] = useState("");
+
+  const theme = useContext(ThemeContext);
 
   if (passed) {
     setPassed(false);
@@ -47,7 +50,7 @@ export function TranslateCard({
         );
         setSentence(text);
       } catch (error) {
-        // console.log(error.toJSON());
+        console.log(error.toJSON());
       }
 
       setLoading(false);
@@ -68,13 +71,15 @@ export function TranslateCard({
         }}
         loading={loading}
       >
-        <View style={styles.card}>
+        <View style={[styles.card, { backgroundColor: theme.secondary }]}>
           <View style={styles.topContainer}>
-            <Text style={styles.text}>{item.name}</Text>
+            <Text style={[styles.text, { color: theme.text }]}>
+              {item.name}
+            </Text>
             <RoundIconButton
               name="trash"
               color="#00000000"
-              iconColor="red"
+              iconColor={theme.delete}
               style={styles.button}
               onPress={deleteItem}
             />
@@ -84,7 +89,10 @@ export function TranslateCard({
               placeholder="Type here..."
               placeholderTextColor="#777777"
               removeClippedSubviews={true}
-              style={styles.input}
+              style={[
+                styles.input,
+                { backgroundColor: theme.thirdly, color: theme.text },
+              ]}
               onChangeText={onChange}
               value={sentence}
               disableFullscreenUI={true}
@@ -94,6 +102,7 @@ export function TranslateCard({
               style={styles.clearButton}
               size={24}
               onPress={() => onChange("")}
+              color={theme.text}
             />
           </View>
         </View>
@@ -108,15 +117,14 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   card: {
-    backgroundColor: Colors.secondary,
     padding: 8,
     height: 100,
     width: "100%",
     borderRadius: 4,
+    elevation: 1,
   },
   text: {
     flex: 1,
-    color: "white",
     fontWeight: "bold",
   },
   inputContainer: {
@@ -128,11 +136,9 @@ const styles = StyleSheet.create({
     padding: 4,
     paddingHorizontal: 8,
     overflow: "hidden",
-    // backgroundColor: "#40444b",
-    backgroundColor: Colors.thirdly,
-    color: "white",
     minHeight: 48,
     paddingRight: 48,
+    elevation: 2,
   },
   topContainer: {
     flex: 1,

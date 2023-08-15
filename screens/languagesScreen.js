@@ -1,6 +1,6 @@
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
 import { Colors } from "../constants/colors";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllLanguages } from "../util/http";
 import { setLanguages } from "../store/languages-context";
@@ -8,6 +8,7 @@ import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ClearButton from "../components/Buttons/ClearButton";
+import { ThemeContext } from "../store/themeContext";
 
 function LanguagesScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +17,8 @@ function LanguagesScreen({ navigation }) {
   const [errorMsg, setErrorMsg] = useState(null);
 
   const dispatcher = useDispatch();
+
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
     async function getL() {
@@ -32,7 +35,7 @@ function LanguagesScreen({ navigation }) {
           }
         });
 
-        saved = activated.length !== "";
+        saved = activated !== "";
 
         dispatcher(setLanguages(languages));
       } catch (error) {
@@ -87,12 +90,17 @@ function LanguagesScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <View style={styles.inputContainer}>
+    <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View
+        style={[styles.inputContainer, { backgroundColor: theme.secondary }]}
+      >
         <TextInput
           placeholder="Search here..."
-          placeholderTextColor="#948c8c"
-          style={styles.input}
+          placeholderTextColor={theme.text}
+          style={[
+            styles.input,
+            { backgroundColor: theme.thirdly, color: theme.text },
+          ]}
           value={search}
           onChangeText={(text) => setSearch(text)}
         />
@@ -100,9 +108,10 @@ function LanguagesScreen({ navigation }) {
           style={styles.clearButton}
           size={24}
           onPress={() => setSearch("")}
+          color={theme.text}
         />
       </View>
-      {/* {errorMsg && <Text style={{ color: "white" }}>{errorMsg}</Text>} */}
+      {/* {errorMsg && <Text style={{ color: theme.text }}>{errorMsg}</Text>} */}
       <FlatList
         keyboardShouldPersistTaps="always"
         contentContainerStyle={{ alignItems: "stretch" }}
@@ -120,9 +129,7 @@ export default LanguagesScreen;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
     flex: 1,
-    backgroundColor: Colors.primary,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -131,25 +138,26 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "90%",
-    backgroundColor: Colors.thirdly,
-    color: "white",
     height: 48,
     borderRadius: 4,
     // marginBottom: 8,
     paddingHorizontal: 16,
+    elevation: 4,
   },
   inputContainer: {
+    paddingTop: 30,
     flexDirection: "column-reverse",
-    backgroundColor: Colors.secondary,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    height: 60,
+    height: 90,
+    elevation: 4,
   },
   clearButton: {
     position: "absolute",
     alignSelf: "flex-end",
     marginRight: "5%",
     paddingRight: 16,
+    paddingTop: 30,
   },
 });
