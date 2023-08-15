@@ -25,16 +25,14 @@ function LanguagesScreen({ navigation }) {
       try {
         const languages = await getAllLanguages();
 
-        const activated = (
-          (await AsyncStorage.getItem("activated")) ?? ""
-        ).split(",");
-        languages.forEach((element) => {
+        const activated = (await AsyncStorage.getItem("activated")) ?? "";
+        languages.split(",").forEach((element) => {
           if (activated.includes(element.language)) {
             element["activated"] = true;
           }
         });
 
-        saved = activated.length > 0;
+        saved = activated.length !== "";
 
         dispatcher(setLanguages(languages));
       } catch (error) {
