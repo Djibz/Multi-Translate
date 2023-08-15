@@ -26,8 +26,8 @@ function LanguagesScreen({ navigation }) {
         const languages = await getAllLanguages();
 
         const activated = (await AsyncStorage.getItem("activated")) ?? "";
-        languages.split(",").forEach((element) => {
-          if (activated.includes(element.language)) {
+        languages.forEach((element) => {
+          if (activated.split(",").includes(element.language)) {
             element["activated"] = true;
           }
         });
