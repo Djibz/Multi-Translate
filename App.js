@@ -1,10 +1,3 @@
-// Google Certificate Fingerprint:     03:8C:32:E9:73:CA:77:8D:40:B6:1A:86:05:C5:6D:74:05:FF:BF:38
-//     Google Certificate Hash (SHA-1):    038C32E973CA778D40B61A8605C56D7405FFBF38
-//     Google Certificate Hash (SHA-256):  223018D6040601BCCCC36F8DB776CB4BCAAB918953481B32CAFF1D85EF315037
-//     Facebook Key Hash:                  A4wy6XPKd41AthqGBcVtdAX/vzg=
-
-// ID : 423797242227-il4co01numtjcj6tilb0vt66va6bp2qb.apps.googleusercontent.com
-
 import * as React from "react";
 
 import { StatusBar } from "expo-status-bar";
@@ -16,25 +9,34 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import { Provider } from "react-redux";
 import LanguagesScreen from "./screens/languagesScreen";
 import { store } from "./store/store";
-import { Colors } from "./constants/colors";
+import { Colors, DarkTheme, LightTheme } from "./constants/colors";
 
 import Icon from "react-native-vector-icons/Ionicons";
+import SettingsScreen from "./screens/settingsScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoadingOverlay from "./components/UI/LoadingOverlay";
+import { useColorScheme } from "react-native";
 
 export default function App() {
-  const [userInfo, setUserInfo] = React.useState(null);
+  const [theme, setTheme] = React.useState("");
+  const [loading, setLoading] = React.useState(false);
 
   let count = 0;
 
   const Stack = createNativeStackNavigator();
-  const Tab = createMaterialBottomTabNavigator();
+
+  const t = useColorScheme();
+  let currentTheme = theme === "auto" ? t : theme;
+  const myTheme = currentTheme === "light" ? LightTheme : DarkTheme;
 
   function Mains() {
+    const Tab = createMaterialBottomTabNavigator();
     return (
       <Provider store={store}>
         <Tab.Navigator
-          activeColor="white"
+          activeColor={myTheme.text}
           shifting={true}
-          barStyle={{ backgroundColor: Colors.secondary }}
+          barStyle={{ backgroundColor: myTheme.secondary, elevation: 4 }}
         >
           <Tab.Screen
             name="Languages"
@@ -43,7 +45,7 @@ export default function App() {
               tabBarIcon: ({ focused }) => (
                 <Icon
                   name="planet-outline"
-                  color={focused ? "black" : "white"}
+                  color={focused ? myTheme.focused : myTheme.text}
                   size={26}
                 />
               ),
@@ -57,7 +59,21 @@ export default function App() {
               tabBarIcon: ({ focused }) => (
                 <Icon
                   name="language-outline"
-                  color={focused ? "black" : "white"}
+                  color={focused ? myTheme.focused : myTheme.text}
+                  size={26}
+                />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={SettingsScreen}
+            initialParams={{ setTheme }}
+            options={{
+              tabBarIcon: ({ focused }) => (
+                <Icon
+                  name="settings-outline"
+                  color={focused ? myTheme.focused : myTheme.text}
                   size={26}
                 />
               ),
@@ -66,6 +82,31 @@ export default function App() {
         </Tab.Navigator>
       </Provider>
     );
+  }
+
+  React.useEffect(() => {
+    async function getTheme() {
+      setLoading(true);
+      try {
+        const t = await AsyncStorage.getItem("theme");
+
+        if (!t) {
+          AsyncStorage.setItem("theme", "auto");
+          t = "auto";
+        }
+
+        setTheme(t);
+      } catch (err) {
+        console.log(err);
+      }
+      setLoading(false);
+    }
+
+    getTheme();
+  }, []);
+
+  if (loading) {
+    return <LoadingOverlay />;
   }
 
   return (
