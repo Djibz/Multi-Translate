@@ -39,7 +39,10 @@ export function TranslateCard({
 
   useEffect(() => {
     async function translateText() {
-      if (sourceLanguage === item.language) return;
+      if (sourceLanguage === item.language) {
+        setSentence(sourceSentence);
+        return;
+      }
 
       setLoading(true);
       try {
