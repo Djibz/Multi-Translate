@@ -10,6 +10,7 @@ const languagesSlice = createSlice({
       state.languages = action.payload;
       state.languages.forEach((lang) => {
         lang.activated = lang.activated ?? false;
+        lang.favorite = lang.favorite ?? false;
       });
     },
     swicthLanguage: (state, action) => {

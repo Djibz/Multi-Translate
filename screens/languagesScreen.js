@@ -28,9 +28,13 @@ function LanguagesScreen({ navigation }) {
         const languages = await getAllLanguages();
 
         const activated = (await AsyncStorage.getItem("activated")) ?? "";
+        const favorites = (await AsyncStorage.getItem("favorites")) ?? "";
         languages.forEach((element) => {
           if (activated.split(",").includes(element.language)) {
             element["activated"] = true;
+          }
+          if (favorites.split(",").includes(element.language)) {
+            element["favorite"] = true;
           }
         });
 
@@ -59,9 +63,13 @@ function LanguagesScreen({ navigation }) {
     return <LoadingOverlay />;
   }
 
-  const filteredLanguages = languages.filter((item) =>
-    search === "" ? true : item.name.search(regex) >= 0
-  );
+  const filteredLanguages = languages
+    .filter((item) => (search === "" ? true : item.name.search(regex) >= 0))
+    .sort((a, b) => {
+      if (a.favorite === b.favorite) return 0;
+      if (a.favorite) return -1;
+      return 1;
+    });
 
   function saveLanguages() {
     try {
@@ -69,6 +77,18 @@ function LanguagesScreen({ navigation }) {
         "activated",
         languages
           .filter((l) => l.activated)
+          .map((l) => l.language)
+          .toString()
+      );
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      AsyncStorage.setItem(
+        "favorites",
+        languages
+          .filter((l) => l.favorite)
           .map((l) => l.language)
           .toString()
       );
@@ -84,6 +104,17 @@ function LanguagesScreen({ navigation }) {
     } else {
       setLCount((current) => current + 1);
       filteredLanguages[index].activated = true;
+    }
+    saveLanguages();
+  }
+
+  function onClickFavorite(index) {
+    if (filteredLanguages[index].favorite) {
+      setLCount((current) => current - 1);
+      filteredLanguages[index].favorite = false;
+    } else {
+      setLCount((current) => current + 1);
+      filteredLanguages[index].favorite = true;
     }
     saveLanguages();
   }
@@ -117,7 +148,18 @@ function LanguagesScreen({ navigation }) {
         style={styles.list}
         data={filteredLanguages}
         renderItem={(item) => (
-          <LanguageCard item={item} onClick={onClick.bind(this, item.index)} />
+          <>
+            {item.index ===
+              filteredLanguages.filter((l) => l.favorite).length &&
+              item.index !== 0 && (
+                <View style={[styles.separator, { borderColor: theme.text }]} />
+              )}
+            <LanguageCard
+              item={item}
+              onClick={onClick.bind(this, item.index)}
+              onFavorite={onClickFavorite.bind(this, item.index)}
+            />
+          </>
         )}
       />
     </View>
@@ -158,5 +200,10 @@ const styles = StyleSheet.create({
     marginRight: "5%",
     paddingRight: 16,
     paddingTop: 30,
+  },
+  separator: {
+    borderTopWidth: 1,
+    width: "90%",
+    marginHorizontal: "5%",
   },
 });

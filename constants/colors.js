@@ -5,7 +5,7 @@ const DarkTheme = {
   background: "#1e2124",
   text: "#ffffff",
   focused: "#000000",
-  activated: "#30cf1b",
+  activated: "#5A8F4A",
   delete: "white",
 };
 
@@ -16,7 +16,7 @@ const LightTheme = {
   background: "#efefef",
   text: "#000000",
   focused: "#000000",
-  activated: "#30cf1b",
+  activated: "#C6F9B7",
   delete: "black",
 };
 
