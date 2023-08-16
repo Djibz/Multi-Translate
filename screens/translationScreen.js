@@ -57,7 +57,7 @@ function TranslationScreen({ navigation }) {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <FlatList
-        keyboardShouldPersistTaps={"always"}
+        removeClippedSubviews={false}
         contentContainerStyle={styles.list}
         style={{ width: "100%" }}
         data={languages}
@@ -87,6 +87,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 10,
     paddingTop: 30,
-    paddingBottom: 500,
   },
 });
