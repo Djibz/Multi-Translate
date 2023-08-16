@@ -1,9 +1,9 @@
 import { StyleSheet } from "react-native";
 import CustomButton from "./Buttons/CustomButton";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useRoute } from "@react-navigation/native";
+import { SetThemeContext } from "../store/setThemeContext";
 
 const themes = {
   auto: true,
@@ -15,7 +15,7 @@ function Switch({ style }) {
   const [counter, setCounter] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const route = useRoute();
+  const setTheme = useContext(SetThemeContext);
 
   useEffect(() => {
     async function getTheme() {
@@ -42,7 +42,11 @@ function Switch({ style }) {
 
     setCounter((nb) => nb + 1);
 
-    route.params.setTheme(theme);
+    setTheme(theme);
+  }
+
+  if (loading) {
+    return <></>;
   }
 
   return (

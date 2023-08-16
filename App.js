@@ -17,6 +17,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "./components/UI/LoadingOverlay";
 import { useColorScheme } from "react-native";
 import { ThemeContext } from "./store/themeContext";
+import { SetThemeContext } from "./store/setThemeContext";
 
 export default function App() {
   const [theme, setTheme] = React.useState("");
@@ -34,55 +35,56 @@ export default function App() {
     const Tab = createMaterialBottomTabNavigator();
     return (
       <ThemeContext.Provider value={myTheme}>
-        <Provider store={store}>
-          <Tab.Navigator
-            activeColor={myTheme.text}
-            shifting={true}
-            barStyle={{ backgroundColor: myTheme.secondary, elevation: 4 }}
-          >
-            <Tab.Screen
-              name="Languages"
-              component={LanguagesScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name="planet-outline"
-                    color={focused ? myTheme.focused : myTheme.text}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Translators"
-              component={TranslationScreen}
-              initialParams={{ count: count }}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name="language-outline"
-                    color={focused ? myTheme.focused : myTheme.text}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Settings"
-              component={SettingsScreen}
-              initialParams={{ setTheme }}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name="settings-outline"
-                    color={focused ? myTheme.focused : myTheme.text}
-                    size={26}
-                  />
-                ),
-              }}
-            />
-          </Tab.Navigator>
-        </Provider>
+        <SetThemeContext.Provider value={setTheme}>
+          <Provider store={store}>
+            <Tab.Navigator
+              activeColor={myTheme.text}
+              shifting={true}
+              barStyle={{ backgroundColor: myTheme.secondary, elevation: 4 }}
+            >
+              <Tab.Screen
+                name="Languages"
+                component={LanguagesScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Icon
+                      name="planet-outline"
+                      color={focused ? myTheme.focused : myTheme.text}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Translators"
+                component={TranslationScreen}
+                initialParams={{ count: count }}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Icon
+                      name="language-outline"
+                      color={focused ? myTheme.focused : myTheme.text}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+              <Tab.Screen
+                name="Settings"
+                component={SettingsScreen}
+                options={{
+                  tabBarIcon: ({ focused }) => (
+                    <Icon
+                      name="settings-outline"
+                      color={focused ? myTheme.focused : myTheme.text}
+                      size={26}
+                    />
+                  ),
+                }}
+              />
+            </Tab.Navigator>
+          </Provider>
+        </SetThemeContext.Provider>
       </ThemeContext.Provider>
     );
   }
