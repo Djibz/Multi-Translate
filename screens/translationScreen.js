@@ -45,7 +45,7 @@ function TranslationScreen({ navigation }) {
 
   if (!languages.length) {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
         <CustomButton
           text="Select languages"
           onPress={() => navigation.navigate("Languages")}
