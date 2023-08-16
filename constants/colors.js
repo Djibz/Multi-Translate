@@ -1,10 +1,3 @@
-export let Colors = {
-  primary: "#1e2124",
-  secondary: "#282b30",
-  thirdly: "#36393e",
-  background: "#000000",
-};
-
 const DarkTheme = {
   primary: "#1e2124",
   secondary: "#282b30",

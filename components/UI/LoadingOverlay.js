@@ -1,5 +1,4 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
-import { Colors } from "../../constants/colors";
 import { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext";
 

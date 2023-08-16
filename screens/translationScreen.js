@@ -1,7 +1,6 @@
-import { Button, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
-import { Colors } from "../constants/colors";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { swicthLanguage } from "../store/languages-context";

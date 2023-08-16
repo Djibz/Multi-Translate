@@ -1,6 +1,5 @@
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
-import { Colors } from "../constants/colors";
 import { useContext, useEffect, useState } from "react";
 import { translate } from "../util/http";
 import RoundIconButton from "./Buttons/RoundIconButton";

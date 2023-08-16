@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const baseUrl = "https://translation.googleapis.com/language/translate/v2";
-// const apiKey = "AIzaSyAGGja7ddfN6KLXwIQWO1A1b41ruRWDF-4";
 const apiKey = "AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM";
 
 export async function getAllLanguages(token) {

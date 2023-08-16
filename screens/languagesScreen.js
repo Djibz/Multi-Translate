@@ -1,5 +1,4 @@
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
-import { Colors } from "../constants/colors";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllLanguages } from "../util/http";
