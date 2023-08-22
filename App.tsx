@@ -93,7 +93,7 @@ export default function App() {
     async function getTheme() {
       setLoading(true);
       try {
-        const t = await AsyncStorage.getItem("theme");
+        let t = await AsyncStorage.getItem("theme");
 
         if (!t) {
           AsyncStorage.setItem("theme", "auto");
