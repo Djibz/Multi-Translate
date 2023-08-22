@@ -3,11 +3,11 @@ import axios from "axios";
 const baseUrl = "https://translation.googleapis.com/language/translate/v2";
 const apiKey = "AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM";
 
-export async function getAllLanguages(token) {
+export async function getAllLanguages() {
   // console.log(`${new Date()} : Getting all Languages`);
 
   return axios
-    .get(`${baseUrl}/languages?target=fr&key=${apiKey}`, {
+    .get(`${baseUrl}/languages?target=en&key=${apiKey}`, {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
