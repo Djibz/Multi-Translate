@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { SetThemeContext } from "../store/setThemeContext";
 
 const themes = {
-  auto: true,
+  auto: false,
   light: false,
   dark: false,
 };
@@ -43,10 +43,6 @@ function Switch({ style = null }) {
     setCounter((nb) => nb + 1);
 
     setTheme(theme);
-  }
-
-  if (loading) {
-    return <></>;
   }
 
   return (
