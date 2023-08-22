@@ -55,7 +55,7 @@ function LanguagesScreen({ navigation }) {
 
   let regex = new RegExp(search, "i");
 
-  const languages = useSelector((state) => {
+  const languages = useSelector((state: { languages: any }) => {
     return state.languages.languages;
   });
 

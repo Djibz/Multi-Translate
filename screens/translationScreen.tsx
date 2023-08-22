@@ -15,7 +15,7 @@ function TranslationScreen({ navigation }) {
 
   const theme = useContext(ThemeContext);
 
-  const languages = useSelector((state) => {
+  const languages = useSelector((state: { languages: any }) => {
     return state.languages.languages;
   }).filter((item) => item.activated);
 

@@ -2,7 +2,12 @@ import { Pressable, StyleSheet, Text } from "react-native";
 import { useContext } from "react";
 import { ThemeContext } from "../../store/themeContext";
 
-function CustomButton({ text, activated, style, ...props }) {
+function CustomButton({
+  text = "",
+  activated = false,
+  style = null,
+  ...props
+}) {
   const theme = useContext(ThemeContext);
 
   return (

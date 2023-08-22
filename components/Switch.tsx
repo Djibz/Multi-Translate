@@ -11,7 +11,7 @@ const themes = {
   dark: false,
 };
 
-function Switch({ style }) {
+function Switch({ style = null }) {
   const [counter, setCounter] = useState(0);
   const [loading, setLoading] = useState(false);
 
@@ -53,19 +53,19 @@ function Switch({ style }) {
     <View style={style}>
       <CustomButton
         text="Phone settings"
-        onPress={() => changeTheme("auto", this)}
+        onPress={() => changeTheme("auto")}
         activated={themes["auto"]}
         style={styles.button}
       />
       <CustomButton
         text="Light theme"
-        onPress={() => changeTheme("light", this)}
+        onPress={() => changeTheme("light")}
         activated={themes["light"]}
         style={styles.button}
       />
       <CustomButton
         text="Dark theme"
-        onPress={() => changeTheme("dark", this)}
+        onPress={() => changeTheme("dark")}
         activated={themes["dark"]}
         style={styles.button}
       />

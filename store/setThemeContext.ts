@@ -1,3 +1,3 @@
 import { createContext } from "react";
 
-export const SetThemeContext = createContext("setTheme");
+export const SetThemeContext = createContext<Function>(null);

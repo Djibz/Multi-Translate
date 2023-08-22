@@ -1,3 +1,14 @@
+type Theme = {
+  primary: any;
+  secondary: any;
+  thirdly: any;
+  background: any;
+  text: any;
+  focused: any;
+  activated: any;
+  delete: any;
+};
+
 const DarkTheme = {
   primary: "#1e2124",
   secondary: "#282b30",
@@ -20,4 +31,4 @@ const LightTheme = {
   delete: "black",
 };
 
-export { LightTheme, DarkTheme };
+export { LightTheme, DarkTheme, Theme };

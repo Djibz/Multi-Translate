@@ -82,7 +82,6 @@ export function TranslateCard({
               name="trash"
               color="#00000000"
               iconColor={theme.delete}
-              style={styles.button}
               onPress={deleteItem}
             />
           </View>

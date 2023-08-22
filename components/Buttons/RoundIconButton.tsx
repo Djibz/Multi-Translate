@@ -1,11 +1,14 @@
 import { Pressable, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
-function RoundIconButton({ size, color, iconColor, name, onPress, style }) {
-  if (size === undefined) {
-    size = 24;
-  }
-
+function RoundIconButton({
+  size = 24,
+  color,
+  iconColor,
+  name,
+  onPress,
+  style = null,
+}) {
   if (color === undefined) {
     color = "white";
   }

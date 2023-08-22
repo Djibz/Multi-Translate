@@ -6,8 +6,8 @@ export function MagicBorder({
   width,
   radius,
   image,
-  style,
-  loading,
+  style = null,
+  loading = false,
 }) {
   return (
     <>
