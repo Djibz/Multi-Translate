@@ -6,10 +6,16 @@ const locale = NativeModules.I18nManager.localeIdentifier.split("_")[0];
 
 function useLanguage() {
   const [language, setLanguage] = useState({ code: locale });
+  const [storedLanguage, setStoredLanguage] = useState(locale);
+
+  async function getStored() {
+    setStoredLanguage((await AsyncStorage.getItem("mainLanguage")) ?? locale);
+  }
+  getStored();
 
   useEffect(() => {
     async function getL() {
-      const l = (await AsyncStorage.getItem("mainLanguage")) ?? locale;
+      const l = storedLanguage ?? locale;
 
       setLanguage({
         code: l,
@@ -17,7 +23,7 @@ function useLanguage() {
     }
 
     getL();
-  }, []);
+  }, [storedLanguage]);
 
   return language;
 }

@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import { getAllLanguages } from "../util/http";
+import useLanguage from "./useLanguage";
 
-export function useLanguages(code: string) {
+export function useLanguages() {
   const [languages, setLanguages] = useState([]);
+
+  const { code } = useLanguage();
 
   useEffect(() => {
     async function getLs() {

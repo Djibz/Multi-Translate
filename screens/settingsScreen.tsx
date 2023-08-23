@@ -10,7 +10,7 @@ function SettingsScreen() {
   const theme = useContext(ThemeContext);
 
   const mainLanguage = useLanguage();
-  const languages = useLanguages(mainLanguage.code);
+  const languages = useLanguages();
 
   const currentLanguage = languages.find(
     (l: any) => l.language === mainLanguage.code
