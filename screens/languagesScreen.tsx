@@ -8,12 +8,15 @@ import LanguageCard from "../components/LanguageCard";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ClearButton from "../components/Buttons/ClearButton";
 import { ThemeContext } from "../store/themeContext";
+import useLanguage from "../hooks/useLanguage";
 
 function LanguagesScreen({ navigation }) {
   const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
+
+  const mainLanguage = useLanguage();
 
   const dispatcher = useDispatch();
 
@@ -25,7 +28,7 @@ function LanguagesScreen({ navigation }) {
       let saved = false;
 
       try {
-        const languages = await getAllLanguages();
+        const languages = await getAllLanguages(mainLanguage.code);
 
         const activated = (await AsyncStorage.getItem("activated")) ?? "";
         const favorites = (await AsyncStorage.getItem("favorites")) ?? "";
@@ -59,7 +62,7 @@ function LanguagesScreen({ navigation }) {
     return state.languages.languages;
   });
 
-  if (isLoading) {
+  if (isLoading || mainLanguage === null) {
     return <LoadingOverlay />;
   }
 

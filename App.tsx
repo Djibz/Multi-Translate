@@ -15,13 +15,18 @@ import Icon from "react-native-vector-icons/Ionicons";
 import SettingsScreen from "./screens/settingsScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "./components/UI/LoadingOverlay";
-import { useColorScheme } from "react-native";
+import { NativeModules, useColorScheme } from "react-native";
 import { ThemeContext } from "./store/themeContext";
 import { SetThemeContext } from "./store/setThemeContext";
+import { LanguageContext } from "./store/languageContext";
 
 export default function App() {
   const [theme, setTheme] = React.useState("");
   const [loading, setLoading] = React.useState(false);
+
+  const l = AsyncStorage.getItem("mainLanguage").then((l) => l);
+
+  console.log(NativeModules.I18nManager.localeIdentifier);
 
   let count = 0;
 
