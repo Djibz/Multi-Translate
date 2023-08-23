@@ -9,14 +9,16 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import ClearButton from "../components/Buttons/ClearButton";
 import { ThemeContext } from "../store/themeContext";
 import useLanguage from "../hooks/useLanguage";
+import { useLanguages } from "../hooks/useLanguages";
 
-function LanguagesScreen({ navigation }) {
+function LanguagesScreen({ route }) {
   const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
   const mainLanguage = useLanguage();
+  const allLanguages = useLanguages();
 
   const dispatcher = useDispatch();
 
@@ -28,7 +30,7 @@ function LanguagesScreen({ navigation }) {
       let saved = false;
 
       try {
-        const languages = await getAllLanguages(mainLanguage.code);
+        const languages = allLanguages;
 
         const activated = (await AsyncStorage.getItem("activated")) ?? "";
         const favorites = (await AsyncStorage.getItem("favorites")) ?? "";
@@ -49,12 +51,12 @@ function LanguagesScreen({ navigation }) {
       }
       setIsLoading(false);
       if (saved) {
-        navigation.navigate("Translators");
+        // navigation.navigate("Translators");
       }
     }
 
     getL();
-  }, []);
+  }, [allLanguages]);
 
   let regex = new RegExp(search, "i");
 

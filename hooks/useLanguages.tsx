@@ -8,6 +8,7 @@ export function useLanguages() {
   const { code } = useLanguage();
 
   useEffect(() => {
+    console.log(code);
     async function getLs() {
       getAllLanguages(code)
         .then((resp) => setLanguages(resp))

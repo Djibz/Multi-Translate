@@ -8,7 +8,8 @@ import { useLanguages } from "../hooks/useLanguages";
 import LanguagesModal from "../components/Modal/LanguagesModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function SettingsScreen() {
+function SettingsScreen({ navigation }) {
+  console.log("render settings");
   const theme = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -22,6 +23,7 @@ function SettingsScreen() {
   function setMainLanguage(language: string) {
     AsyncStorage.setItem("mainLanguage", language);
     setModalVisible(false);
+    navigation.navigate("Languages", { reload: true });
   }
 
   return (
