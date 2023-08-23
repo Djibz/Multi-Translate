@@ -24,10 +24,6 @@ export default function App() {
   const [theme, setTheme] = React.useState("");
   const [loading, setLoading] = React.useState(false);
 
-  const l = AsyncStorage.getItem("mainLanguage").then((l) => l);
-
-  console.log(NativeModules.I18nManager.localeIdentifier);
-
   let count = 0;
 
   const Stack = createNativeStackNavigator();
