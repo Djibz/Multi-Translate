@@ -11,6 +11,7 @@ import useLanguage from "../hooks/useLanguage";
 import { useLanguages } from "../hooks/useLanguages";
 import { Language } from "../models/language";
 import { translate } from "../util/http";
+import { languageMatch } from "../util/format";
 
 function LanguagesScreen({ route }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,12 +47,16 @@ function LanguagesScreen({ route }) {
 
         saved = activated !== "";
 
-        await Promise.all(languages.map( async (language: Language) => {
-          const translated = await translate(language.name, mainLanguage.code, language.language);
-          language['nameInLanguage'] = translated;
-        }))
-
-        console.log(languages);
+        await Promise.all(
+          languages.map(async (language: Language) => {
+            const translated = await translate(
+              language.name,
+              mainLanguage.code,
+              language.language
+            );
+            language["nameInLanguage"] = translated;
+          })
+        );
 
         dispatcher(setLanguages(languages));
       } catch (error) {
@@ -66,8 +71,6 @@ function LanguagesScreen({ route }) {
     getL();
   }, [allLanguages]);
 
-  let regex = new RegExp(search, "i");
-
   const languages = useSelector((state: { languages: any }) => {
     return state.languages.languages;
   });
@@ -77,7 +80,7 @@ function LanguagesScreen({ route }) {
   }
 
   const filteredLanguages = languages
-    .filter((item: Language) => (search === "" ? true : item.name.search(regex) >= 0))
+    .filter((item: Language) => languageMatch(item, search))
     .sort((a: Language, b: Language) => {
       if (a.favorite === b.favorite) return 0;
       if (a.favorite) return -1;
@@ -218,5 +221,6 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
     width: "90%",
     marginHorizontal: "5%",
+    marginVertical: 4,
   },
 });

@@ -5,7 +5,7 @@ const baseUrl = "https://translation.googleapis.com/language/translate/v2";
 const apiKey = "AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM";
 
 export async function getAllLanguages(mainLanguage: String) {
-  console.log(`${new Date()} : Getting all Languages`);
+  console.log(`${new Date()} : Getting all ${mainLanguage} Languages`);
 
   return axios
     .get(`${baseUrl}/languages?target=${mainLanguage}&key=${apiKey}`, {
@@ -19,7 +19,11 @@ export async function getAllLanguages(mainLanguage: String) {
     });
 }
 
-export async function translate(text: string, source: string, target: string): Promise<string> {
+export async function translate(
+  text: string,
+  source: string,
+  target: string
+): Promise<string> {
   if (source === target) {
     return text;
   }
