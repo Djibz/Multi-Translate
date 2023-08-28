@@ -15,7 +15,7 @@ function useLanguage() {
 
   useEffect(() => {
     async function getL() {
-      const l = storedLanguage ?? locale;
+      const l = String(storedLanguage ?? locale);
 
       setLanguage({
         code: l,

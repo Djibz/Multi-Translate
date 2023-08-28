@@ -19,7 +19,7 @@ export async function getAllLanguages(mainLanguage: String) {
     });
 }
 
-export async function translate(text, source, target) {
+export async function translate(text: string, source: string, target: string): Promise<string> {
   if (source === target) {
     return text;
   }

@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
 import { ThemeContext } from "../store/themeContext";
 import Icon from "react-native-vector-icons/Ionicons";
@@ -18,9 +18,19 @@ function LanguageCard({ item, onClick, onFavorite }) {
       ]}
       onPress={onClick}
     >
-      <Text style={[styles.languageText, { color: theme.text }]}>
-        {item.item.name}
-      </Text>
+      <View>
+        <Text style={[styles.languageText, { color: theme.text }]}>
+          {item.item.nameInLanguage}
+        </Text>
+        <Text
+          style={[
+            styles.languageText,
+            { color: theme.text, fontWeight: "normal" },
+          ]}
+        >
+          {item.item.name}
+        </Text>
+      </View>
       <Pressable onPress={onFavorite}>
         <Icon
           name={item.item.favorite ? "star" : "star-outline"}
@@ -40,7 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    borderRadius: 4,
+    borderRadius: 8,
     marginVertical: 6,
     margin: "5%",
     elevation: 4,

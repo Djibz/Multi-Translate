@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllLanguages } from "../util/http";
 import { setLanguages } from "../store/languages-context";
 import LoadingOverlay from "../components/UI/LoadingOverlay";
 import LanguageCard from "../components/LanguageCard";
@@ -10,6 +9,8 @@ import ClearButton from "../components/Buttons/ClearButton";
 import { ThemeContext } from "../store/themeContext";
 import useLanguage from "../hooks/useLanguage";
 import { useLanguages } from "../hooks/useLanguages";
+import { Language } from "../models/language";
+import { translate } from "../util/http";
 
 function LanguagesScreen({ route }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -45,6 +46,13 @@ function LanguagesScreen({ route }) {
 
         saved = activated !== "";
 
+        await Promise.all(languages.map( async (language: Language) => {
+          const translated = await translate(language.name, mainLanguage.code, language.language);
+          language['nameInLanguage'] = translated;
+        }))
+
+        console.log(languages);
+
         dispatcher(setLanguages(languages));
       } catch (error) {
         setErrorMsg(error);
@@ -69,8 +77,8 @@ function LanguagesScreen({ route }) {
   }
 
   const filteredLanguages = languages
-    .filter((item) => (search === "" ? true : item.name.search(regex) >= 0))
-    .sort((a, b) => {
+    .filter((item: Language) => (search === "" ? true : item.name.search(regex) >= 0))
+    .sort((a: Language, b: Language) => {
       if (a.favorite === b.favorite) return 0;
       if (a.favorite) return -1;
       return 1;
@@ -81,8 +89,8 @@ function LanguagesScreen({ route }) {
       AsyncStorage.setItem(
         "activated",
         languages
-          .filter((l) => l.activated)
-          .map((l) => l.language)
+          .filter((l: Language) => l.activated)
+          .map((l: Language) => l.language)
           .toString()
       );
     } catch (err) {
@@ -93,8 +101,8 @@ function LanguagesScreen({ route }) {
       AsyncStorage.setItem(
         "favorites",
         languages
-          .filter((l) => l.favorite)
-          .map((l) => l.language)
+          .filter((l: Language) => l.favorite)
+          .map((l: Language) => l.language)
           .toString()
       );
     } catch (err) {
@@ -102,7 +110,7 @@ function LanguagesScreen({ route }) {
     }
   }
 
-  function onClick(index) {
+  function onClick(index: number) {
     if (filteredLanguages[index].activated) {
       setLCount((current) => current - 1);
       filteredLanguages[index].activated = false;
@@ -113,7 +121,7 @@ function LanguagesScreen({ route }) {
     saveLanguages();
   }
 
-  function onClickFavorite(index) {
+  function onClickFavorite(index: number) {
     if (filteredLanguages[index].favorite) {
       setLCount((current) => current - 1);
       filteredLanguages[index].favorite = false;
