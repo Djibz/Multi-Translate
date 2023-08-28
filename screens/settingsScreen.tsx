@@ -9,7 +9,6 @@ import LanguagesModal from "../components/Modal/LanguagesModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function SettingsScreen({ navigation }) {
-  console.log("render settings");
   const theme = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
 

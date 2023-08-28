@@ -103,7 +103,7 @@ export default function App() {
 
         setTheme(t);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
       setLoading(false);
     }

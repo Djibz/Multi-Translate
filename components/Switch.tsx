@@ -24,7 +24,7 @@ function Switch({ style = null }) {
         const currentTheme = (await AsyncStorage.getItem("theme")) ?? "auto";
         changeTheme(currentTheme);
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
       setLoading(false);
     }

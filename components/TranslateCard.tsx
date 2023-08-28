@@ -52,7 +52,7 @@ export function TranslateCard({
         );
         setSentence(text);
       } catch (error) {
-        console.log(error.toJSON());
+        console.error(error.toJSON());
       }
 
       setLoading(false);

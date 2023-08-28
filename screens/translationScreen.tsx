@@ -26,7 +26,7 @@ function TranslationScreen({ navigation }) {
         languages.map((l) => l.language).toString()
       );
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   }
   saveLanguages();

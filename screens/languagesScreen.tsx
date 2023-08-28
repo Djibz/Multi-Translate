@@ -86,7 +86,7 @@ function LanguagesScreen({ route }) {
           .toString()
       );
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
 
     try {
