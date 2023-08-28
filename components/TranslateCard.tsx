@@ -79,10 +79,17 @@ export function TranslateCard({
               {item.name}
             </Text>
             <RoundIconButton
+              name="volume-high"
+              color="#00000000"
+              iconColor={theme.delete}
+              onPress={() => {}}
+            />
+            <RoundIconButton
               name="trash"
               color="#00000000"
               iconColor={theme.delete}
               onPress={deleteItem}
+              style={{ marginLeft: 48 }}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -144,6 +151,7 @@ const styles = StyleSheet.create({
   topContainer: {
     flex: 1,
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   clearButton: {
     position: "absolute",
