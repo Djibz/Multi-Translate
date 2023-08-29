@@ -1,54 +1,68 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 const baseUrl = "https://translation.googleapis.com/language/translate/v2";
 const apiKey = "AIzaSyDrEee87JWu9LdRwCTLjvnUWuRhJasdqtM";
+const headers = {
+  Accept: "application/json",
+  "Content-Type": "application/json",
+};
 
-export async function getAllLanguages(mainLanguage: String) {
+async function getAllLanguages(mainLanguage: String) {
   console.log(`${new Date()} : Getting all ${mainLanguage} Languages`);
 
   return axios
     .get(`${baseUrl}/languages?target=${mainLanguage}&key=${apiKey}`, {
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
+      headers,
     })
     .then((response) => {
       return response.data.data.languages;
     });
 }
 
-export async function translate(
+async function translate(
   text: string,
   source: string,
   target: string
 ): Promise<string> {
-  if (source === target) {
-    return text;
-  }
+  if (source === target) return text;
+  if (text === "") return text;
 
-  if (text === "") {
-    return text;
-  }
+  const body = {
+    q: [text],
+    source: source,
+    target: target,
+    format: "text",
+  };
 
   return axios
-    .post(
-      `${baseUrl}?key=${apiKey}`,
-      {
-        q: [text, "Monsieur"],
-        source: source,
-        target: target,
-        format: "text",
-      },
-      {
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    .post(`${baseUrl}?key=${apiKey}`, body, { headers })
     .then((response) => {
       return response.data.data.translations[0].translatedText;
     });
 }
+
+async function getAudio(text: string, languageCode: string): Promise<string> {
+  if (text === "") return text;
+
+  const body = {
+    input: { text },
+    audioConfig: {
+      audioEncoding: "MP3",
+    },
+    voice: { languageCode },
+  };
+
+  return axios
+    .post(
+      `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`,
+      body,
+      { headers }
+    )
+    .then((response) => response)
+    .then((error) => {
+      console.error(error);
+      return "";
+    });
+}
+
+export { getAllLanguages, translate, getAudio };
