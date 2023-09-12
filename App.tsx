@@ -15,7 +15,7 @@ import Icon from "react-native-vector-icons/Ionicons";
 import SettingsScreen from "./screens/settingsScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "./components/UI/LoadingOverlay";
-import { NativeModules, useColorScheme } from "react-native";
+import { StyleSheet, useColorScheme } from "react-native";
 import { ThemeContext } from "./store/themeContext";
 import { SetThemeContext } from "./store/setThemeContext";
 import { LanguageContext } from "./store/languageContext";
@@ -52,6 +52,7 @@ export default function App() {
                       name="planet-outline"
                       color={focused ? myTheme.focused : myTheme.text}
                       size={26}
+                      style={styles.tabIcon}
                     />
                   ),
                 }}
@@ -66,6 +67,7 @@ export default function App() {
                       name="language-outline"
                       color={focused ? myTheme.focused : myTheme.text}
                       size={26}
+                      style={styles.tabIcon}
                     />
                   ),
                 }}
@@ -79,6 +81,7 @@ export default function App() {
                       name="settings-outline"
                       color={focused ? myTheme.focused : myTheme.text}
                       size={26}
+                      style={styles.tabIcon}
                     />
                   ),
                 }}
@@ -138,3 +141,11 @@ export default function App() {
     </>
   );
 }
+
+const styles = StyleSheet.create({
+  tabIcon: {
+    textAlign: "center",
+    textAlignVertical: "center",
+    marginTop: -1.5,
+  },
+});
