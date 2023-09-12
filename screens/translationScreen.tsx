@@ -3,7 +3,6 @@ import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { useContext, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { swicthLanguage } from "../store/languages-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../components/Buttons/CustomButton";
 import { ThemeContext } from "../store/themeContext";
