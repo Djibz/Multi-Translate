@@ -8,8 +8,6 @@ const headers = {
 };
 
 async function getAllLanguages(mainLanguage: String) {
-  console.log(`${new Date()} : Getting all ${mainLanguage} Languages`);
-
   return axios
     .get(`${baseUrl}/languages?target=${mainLanguage}&key=${apiKey}`, {
       headers,

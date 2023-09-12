@@ -9,6 +9,8 @@ export function useLanguages() {
 
   useEffect(() => {
     async function getLs() {
+      console.log(`${new Date()} : Getting all ${code} Languages`);
+
       getAllLanguages(code)
         .then((resp) => setLanguages(resp))
         .catch((err) => console.error(err.request));
