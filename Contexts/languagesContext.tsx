@@ -107,7 +107,7 @@ function LanguagesProvider({ children }) {
   };
 
   if (loading || !baseLanguages) {
-    return <LoadingScreen message="Loading Languages" />;
+    return <LoadingScreen message="Loading Languages..." />;
   }
 
   return (

@@ -38,59 +38,55 @@ export default function App() {
   function Mains() {
     const Tab = createMaterialBottomTabNavigator();
     return (
-      <ThemeContext.Provider value={myTheme}>
-        <SetThemeContext.Provider value={setTheme}>
-          <Tab.Navigator
-            activeColor={myTheme.text}
-            shifting={true}
-            barStyle={{ backgroundColor: myTheme.secondary, elevation: 4 }}
-          >
-            <Tab.Screen
-              name="Languages"
-              component={LanguagesScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name="planet-outline"
-                    color={focused ? myTheme.focused : myTheme.text}
-                    size={26}
-                    style={styles.tabIcon}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Translators"
-              component={TranslationScreen}
-              initialParams={{ count: count }}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name="language-outline"
-                    color={focused ? myTheme.focused : myTheme.text}
-                    size={26}
-                    style={styles.tabIcon}
-                  />
-                ),
-              }}
-            />
-            <Tab.Screen
-              name="Settings"
-              component={SettingsScreen}
-              options={{
-                tabBarIcon: ({ focused }) => (
-                  <Icon
-                    name="settings-outline"
-                    color={focused ? myTheme.focused : myTheme.text}
-                    size={26}
-                    style={styles.tabIcon}
-                  />
-                ),
-              }}
-            />
-          </Tab.Navigator>
-        </SetThemeContext.Provider>
-      </ThemeContext.Provider>
+      <Tab.Navigator
+        activeColor={myTheme.text}
+        shifting={true}
+        barStyle={{ backgroundColor: myTheme.secondary, elevation: 4 }}
+      >
+        <Tab.Screen
+          name="Languages"
+          component={LanguagesScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Icon
+                name="planet-outline"
+                color={focused ? myTheme.focused : myTheme.text}
+                size={26}
+                style={styles.tabIcon}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Translators"
+          component={TranslationScreen}
+          initialParams={{ count: count }}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Icon
+                name="language-outline"
+                color={focused ? myTheme.focused : myTheme.text}
+                size={26}
+                style={styles.tabIcon}
+              />
+            ),
+          }}
+        />
+        <Tab.Screen
+          name="Settings"
+          component={SettingsScreen}
+          options={{
+            tabBarIcon: ({ focused }) => (
+              <Icon
+                name="settings-outline"
+                color={focused ? myTheme.focused : myTheme.text}
+                size={26}
+                style={styles.tabIcon}
+              />
+            ),
+          }}
+        />
+      </Tab.Navigator>
     );
   }
 
@@ -143,17 +139,21 @@ export default function App() {
       <LanguageContext.Provider
         value={{ language, setLanguage: onChangeLanguage }}
       >
-        <LanguagesProvider>
-          <NavigationContainer>
-            <Stack.Navigator>
-              <Stack.Screen
-                name="Translator"
-                component={Mains}
-                options={{ headerShown: false }}
-              />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </LanguagesProvider>
+        <ThemeContext.Provider value={myTheme}>
+          <SetThemeContext.Provider value={setTheme}>
+            <LanguagesProvider>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen
+                    name="Translator"
+                    component={Mains}
+                    options={{ headerShown: false }}
+                  />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </LanguagesProvider>
+          </SetThemeContext.Provider>
+        </ThemeContext.Provider>
       </LanguageContext.Provider>
     </>
   );
