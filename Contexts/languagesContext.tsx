@@ -54,13 +54,6 @@ function LanguagesProvider({ children }) {
   function favorite(languageCode: string) {
     const found = languages.find((l) => l.language === languageCode);
     found.favorite = !found.favorite;
-    setFavorites((curr) => {
-      if (found.favorite) {
-        return [...curr, found.language];
-      } else {
-        return curr.filter((code) => code !== found.language);
-      }
-    });
 
     AsyncStorage.setItem(
       "favorites",
@@ -69,6 +62,14 @@ function LanguagesProvider({ children }) {
         .map((l: Language) => l.language)
         .toString()
     );
+
+    setFavorites((curr) => {
+      if (found.favorite) {
+        return [...curr, found.language];
+      } else {
+        return curr.filter((code) => code !== found.language);
+      }
+    });
   }
 
   function select(languageCode: string) {
@@ -82,6 +83,14 @@ function LanguagesProvider({ children }) {
         .map((l: Language) => l.language)
         .toString()
     );
+
+    setSelected((curr) => {
+      if (found.activated) {
+        return [...curr, found.language];
+      } else {
+        return curr.filter((code) => code !== found.language);
+      }
+    });
   }
 
   const values = {

@@ -3,7 +3,7 @@ import CustomButton from "./Buttons/CustomButton";
 import { useContext, useEffect, useState } from "react";
 import { View } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SetThemeContext } from "../store/setThemeContext";
+import { SetThemeContext } from "../Contexts/setThemeContext";
 
 const themes = {
   auto: false,

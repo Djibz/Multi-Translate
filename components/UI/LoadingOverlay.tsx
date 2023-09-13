@@ -1,6 +1,6 @@
 import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext";
+import { ThemeContext } from "../../Contexts/themeContext";
 
 function LoadingOverlay() {
   const theme = useContext(ThemeContext);

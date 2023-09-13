@@ -6,7 +6,6 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import TranslationScreen from "./screens/translationScreen";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
-import { Provider } from "react-redux";
 import LanguagesScreen from "./screens/languagesScreen";
 import { DarkTheme, LightTheme } from "./constants/colors";
 
@@ -15,11 +14,11 @@ import SettingsScreen from "./screens/settingsScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingOverlay from "./components/UI/LoadingOverlay";
 import { StyleSheet, useColorScheme } from "react-native";
-import { ThemeContext } from "./store/themeContext";
-import { SetThemeContext } from "./store/setThemeContext";
-import { LanguageContext } from "./store/languageContext";
+import { ThemeContext } from "./Contexts/themeContext";
+import { SetThemeContext } from "./Contexts/setThemeContext";
+import { LanguageContext } from "./Contexts/languageContext";
 import { NativeModules } from "react-native";
-import LanguagesContext, { LanguagesProvider } from "./store/languagesContext";
+import { LanguagesProvider } from "./Contexts/languagesContext";
 
 const locale = NativeModules.I18nManager.localeIdentifier.split("_")[0];
 
@@ -134,8 +133,8 @@ export default function App() {
   };
 
   async function onChangeLanguage(language: string) {
-    await AsyncStorage.setItem("mainLanguage", language);
     setLanguage(language);
+    AsyncStorage.setItem("mainLanguage", language);
   }
 
   return (

@@ -1,14 +1,14 @@
 import { FlatList, Modal, StyleSheet, Text, View } from "react-native";
 import CustomButton from "../Buttons/CustomButton";
-import { useContext, useState } from "react";
-import { ThemeContext } from "../../store/themeContext";
+import { useContext } from "react";
+import { ThemeContext } from "../../Contexts/themeContext";
 import RoundIconButton from "../Buttons/RoundIconButton";
 
 function LanguagesModal({ visible, languages, onPress, current }) {
   const theme = useContext(ThemeContext);
 
   return (
-    <Modal visible={visible}>
+    <Modal visible={visible} animationType="slide">
       <View style={[styles.header, { backgroundColor: theme.secondary }]}>
         <RoundIconButton
           size={40}
@@ -29,8 +29,8 @@ function LanguagesModal({ visible, languages, onPress, current }) {
           renderItem={(item) => (
             <CustomButton
               style={styles.button}
-              text={item.item.name}
-              activated={item.item.language === current.code}
+              text={`${item.item.name}\n${item.item.nameInLanguage}`}
+              activated={item.item.language === current}
               onPress={() => onPress(item.item.language)}
             />
           )}

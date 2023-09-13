@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
-import { ThemeContext } from "../store/themeContext";
+import { ThemeContext } from "../Contexts/themeContext";
 import Icon from "react-native-vector-icons/Ionicons";
 
 function LanguageCard({ item, onClick, onFavorite }) {
