@@ -25,6 +25,10 @@ function LanguagesProvider({ children }) {
       setLoading(true);
       const activated = (await AsyncStorage.getItem("activated")) ?? "";
       const favorites = (await AsyncStorage.getItem("favorites")) ?? "";
+      const translations: Object = JSON.parse(
+        (await AsyncStorage.getItem("translations")) ?? "{}"
+      );
+      console.log(translations);
 
       const languages = [...baseLanguages];
 
@@ -39,7 +43,8 @@ function LanguagesProvider({ children }) {
 
       await Promise.all(
         languages.map(async (l: Language) => {
-          const translated = await translate(l.name, language, l.language);
+          if (translations.hasOwnProperty(l.language))
+            const translated = await translate(l.name, language, l.language);
           l["nameInLanguage"] = translated;
         })
       );

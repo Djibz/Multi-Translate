@@ -14,6 +14,8 @@ function LanguageCard({ item, onClick, onFavorite }) {
           backgroundColor: item.item.activated
             ? theme.activated
             : theme.secondary,
+          borderColor: theme.text,
+          borderWidth: item.item.favorite ? 1 : 0,
         },
       ]}
       onPress={onClick}
