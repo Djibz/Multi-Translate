@@ -1,28 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
 import Switch from "../components/Switch";
 import { useContext, useState } from "react";
-import { ThemeContext } from "../store/themeContext";
+import { ThemeContext } from "../Contexts/themeContext";
 import CustomButton from "../components/Buttons/CustomButton";
-import useLanguage from "../hooks/useLanguage";
-import { useLanguages } from "../hooks/useLanguages";
 import LanguagesModal from "../components/Modal/LanguagesModal";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { LanguageContext } from "../Contexts/languageContext";
+import LanguagesContext from "../Contexts/languagesContext";
 
 function SettingsScreen({ navigation }) {
   const theme = useContext(ThemeContext);
   const [modalVisible, setModalVisible] = useState(false);
 
-  const mainLanguage = useLanguage();
-  const languages = useLanguages();
+  const lContext = useContext(LanguageContext);
+  const { languages } = useContext(LanguagesContext);
+  const mainLanguage = lContext.language;
 
   const currentLanguage = languages.find(
-    (l: any) => l.language === mainLanguage.code
+    (l: any) => l.language === mainLanguage
   )?.name;
 
   function setMainLanguage(language: string) {
-    AsyncStorage.setItem("mainLanguage", language);
+    lContext.setLanguage(language);
     setModalVisible(false);
-    navigation.navigate("Languages", { reload: true });
   }
 
   return (

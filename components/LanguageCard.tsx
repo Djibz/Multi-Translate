@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useContext } from "react";
-import { ThemeContext } from "../store/themeContext";
+import { ThemeContext } from "../Contexts/themeContext";
 import Icon from "react-native-vector-icons/Ionicons";
 
 function LanguageCard({ item, onClick, onFavorite }) {
@@ -14,6 +14,8 @@ function LanguageCard({ item, onClick, onFavorite }) {
           backgroundColor: item.item.activated
             ? theme.activated
             : theme.secondary,
+          borderColor: theme.text,
+          borderWidth: item.item.favorite ? 1 : 0,
         },
       ]}
       onPress={onClick}

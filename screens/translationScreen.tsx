@@ -2,22 +2,20 @@ import { StyleSheet, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
 import { useContext, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { swicthLanguage } from "../store/languages-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import CustomButton from "../components/Buttons/CustomButton";
-import { ThemeContext } from "../store/themeContext";
+import { ThemeContext } from "../Contexts/themeContext";
+import LanguagesContext from "../Contexts/languagesContext";
 
 function TranslationScreen({ navigation }) {
   const [sentence, setSentence] = useState("Bonjour");
   const [source, setSource] = useState("fr");
-  const [counter, setCounter] = useState(0);
 
   const theme = useContext(ThemeContext);
 
-  const languages = useSelector((state: { languages: any }) => {
-    return state.languages.languages;
-  }).filter((item) => item.activated);
+  const { select, languages: allLanguages } = useContext(LanguagesContext);
+
+  const languages = allLanguages.filter((item) => item.activated);
 
   async function saveLanguages() {
     try {
@@ -36,11 +34,8 @@ function TranslationScreen({ navigation }) {
     setSentence(text);
   }
 
-  const dispatcher = useDispatch();
-
-  function deleteItem(languageCode) {
-    dispatcher(swicthLanguage(languageCode));
-    setCounter((cur) => cur + 1);
+  function deleteItem(languageCode: string) {
+    select(languageCode);
   }
 
   if (!languages.length) {

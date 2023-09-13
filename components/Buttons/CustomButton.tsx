@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text } from "react-native";
 import { useContext } from "react";
-import { ThemeContext } from "../../store/themeContext";
+import { ThemeContext } from "../../Contexts/themeContext";
 
 function CustomButton({
   text = "",
@@ -23,7 +23,11 @@ function CustomButton({
         },
       ]}
     >
-      <Text style={{ color: theme.text, fontWeight: "bold" }}>{text}</Text>
+      <Text
+        style={{ color: theme.text, fontWeight: "bold", textAlign: "center" }}
+      >
+        {text}
+      </Text>
     </Pressable>
   );
 }

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { translate } from "../util/http";
 import RoundIconButton from "./Buttons/RoundIconButton";
 import ClearButton from "./Buttons/ClearButton";
-import { ThemeContext } from "../store/themeContext";
+import { ThemeContext } from "../Contexts/themeContext";
 
 let wait = null;
 
@@ -104,7 +104,6 @@ export function TranslateCard({
               onChangeText={onChange}
               value={sentence}
               disableFullscreenUI={true}
-              autoFocus={true}
             />
             <ClearButton
               style={styles.clearButton}

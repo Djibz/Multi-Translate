@@ -1,83 +1,20 @@
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
-import { useContext, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setLanguages } from "../store/languages-context";
-import LoadingOverlay from "../components/UI/LoadingOverlay";
+import { useContext, useState } from "react";
 import LanguageCard from "../components/LanguageCard";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import ClearButton from "../components/Buttons/ClearButton";
-import { ThemeContext } from "../store/themeContext";
-import useLanguage from "../hooks/useLanguage";
-import { useLanguages } from "../hooks/useLanguages";
+import { ThemeContext } from "../Contexts/themeContext";
 import { Language } from "../models/language";
-import { translate } from "../util/http";
 import { languageMatch } from "../util/format";
+import LanguagesContext from "../Contexts/languagesContext";
 
 function LanguagesScreen({ route }) {
-  const [isLoading, setIsLoading] = useState(false);
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
-  const mainLanguage = useLanguage();
-  const allLanguages = useLanguages();
-
-  const dispatcher = useDispatch();
+  const { languages, select, favorite } = useContext(LanguagesContext);
 
   const theme = useContext(ThemeContext);
-
-  useEffect(() => {
-    async function getL() {
-      setIsLoading(true);
-      let saved = false;
-
-      try {
-        const languages = allLanguages;
-
-        const activated = (await AsyncStorage.getItem("activated")) ?? "";
-        const favorites = (await AsyncStorage.getItem("favorites")) ?? "";
-        languages.forEach((element) => {
-          if (activated.split(",").includes(element.language)) {
-            element["activated"] = true;
-          }
-          if (favorites.split(",").includes(element.language)) {
-            element["favorite"] = true;
-          }
-        });
-
-        saved = activated !== "";
-
-        await Promise.all(
-          languages.map(async (language: Language) => {
-            const translated = await translate(
-              language.name,
-              mainLanguage.code,
-              language.language
-            );
-            language["nameInLanguage"] = translated;
-          })
-        );
-
-        dispatcher(setLanguages(languages));
-      } catch (error) {
-        setErrorMsg(error);
-      }
-      setIsLoading(false);
-      if (saved) {
-        // navigation.navigate("Translators");
-      }
-    }
-
-    getL();
-  }, [allLanguages]);
-
-  const languages = useSelector((state: { languages: any }) => {
-    return state.languages.languages;
-  });
-
-  if (isLoading || mainLanguage === null) {
-    return <LoadingOverlay />;
-  }
 
   const filteredLanguages = languages
     .filter((item: Language) => languageMatch(item, search))
@@ -87,32 +24,6 @@ function LanguagesScreen({ route }) {
       return 1;
     });
 
-  function saveLanguages() {
-    try {
-      AsyncStorage.setItem(
-        "activated",
-        languages
-          .filter((l: Language) => l.activated)
-          .map((l: Language) => l.language)
-          .toString()
-      );
-    } catch (err) {
-      console.error(err);
-    }
-
-    try {
-      AsyncStorage.setItem(
-        "favorites",
-        languages
-          .filter((l: Language) => l.favorite)
-          .map((l: Language) => l.language)
-          .toString()
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
   function onClick(index: number) {
     if (filteredLanguages[index].activated) {
       setLCount((current) => current - 1);
@@ -121,7 +32,6 @@ function LanguagesScreen({ route }) {
       setLCount((current) => current + 1);
       filteredLanguages[index].activated = true;
     }
-    saveLanguages();
   }
 
   function onClickFavorite(index: number) {
@@ -132,7 +42,6 @@ function LanguagesScreen({ route }) {
       setLCount((current) => current + 1);
       filteredLanguages[index].favorite = true;
     }
-    saveLanguages();
   }
 
   return (
@@ -172,7 +81,7 @@ function LanguagesScreen({ route }) {
               )}
             <LanguageCard
               item={item}
-              onClick={onClick.bind(this, item.index)}
+              onClick={() => select(item.item.language)}
               onFavorite={onClickFavorite.bind(this, item.index)}
             />
           </>
