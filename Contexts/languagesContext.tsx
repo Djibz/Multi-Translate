@@ -28,7 +28,6 @@ function LanguagesProvider({ children }) {
       const translations: Object = JSON.parse(
         (await AsyncStorage.getItem("translations")) ?? "{}"
       );
-      console.log(translations);
 
       const languages = [...baseLanguages];
 
@@ -43,12 +42,15 @@ function LanguagesProvider({ children }) {
 
       await Promise.all(
         languages.map(async (l: Language) => {
-          if (translations.hasOwnProperty(l.language))
-            const translated = await translate(l.name, language, l.language);
-          l["nameInLanguage"] = translated;
+          if (!translations.hasOwnProperty(l.language)) {
+            const translation = await translate(l.name, language, l.language);
+            translations[l.language] = translation;
+          }
+          l["nameInLanguage"] = translations[l.language];
         })
       );
 
+      AsyncStorage.setItem("translations", JSON.stringify(translations));
       setLanguages(languages);
       setLoading(false);
     }
@@ -107,8 +109,6 @@ function LanguagesProvider({ children }) {
   if (loading || !baseLanguages) {
     return <LoadingScreen message="Loading Languages" />;
   }
-
-  console.log(languages.length);
 
   return (
     <LanguagesContext.Provider value={values}>
