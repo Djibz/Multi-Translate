@@ -17,18 +17,6 @@ function TranslationScreen({ navigation }) {
 
   const languages = allLanguages.filter((item) => item.activated);
 
-  async function saveLanguages() {
-    try {
-      await AsyncStorage.setItem(
-        "activated",
-        languages.map((l) => l.language).toString()
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  saveLanguages();
-
   function onModified(text, source) {
     setSource(source);
     setSentence(text);
