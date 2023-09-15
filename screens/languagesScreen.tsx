@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, TextInput, View } from "react-native";
-import { useContext, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import LanguageCard from "../components/LanguageCard";
 import ClearButton from "../components/Buttons/ClearButton";
 import { ThemeContext } from "../Contexts/themeContext";
@@ -44,6 +44,32 @@ function LanguagesScreen({ route }) {
     }
   }
 
+  const renderFavorite = useCallback(({ item }: { item: Language }) => {
+    if (!item.favorite) {
+      return <></>;
+    }
+    return (
+      <LanguageCard
+        item={item}
+        onClick={() => select(item.language)}
+        onFavorite={() => favorite(item.language)}
+      />
+    );
+  }, []);
+
+  const renderItem = useCallback(({ item }: { item: Language }) => {
+    if (item.favorite) {
+      return <></>;
+    }
+    return (
+      <LanguageCard
+        item={item}
+        onClick={() => select(item.language)}
+        onFavorite={() => favorite(item.language)}
+      />
+    );
+  }, []);
+
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <View
@@ -69,6 +95,7 @@ function LanguagesScreen({ route }) {
       {/* {errorMsg && <Text style={{ color: theme.text }}>{errorMsg}</Text>} */}
       <FlatList
         keyboardShouldPersistTaps="always"
+        removeClippedSubviews
         contentContainerStyle={{ alignItems: "stretch" }}
         style={styles.list}
         data={filteredLanguages}
@@ -86,6 +113,7 @@ function LanguagesScreen({ route }) {
             />
           </>
         )}
+        keyExtractor={(item, index) => index.toString()}
       />
     </View>
   );
