@@ -1,28 +1,44 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { ThemeContext } from "../Contexts/themeContext";
 import Icon from "react-native-vector-icons/Ionicons";
 
-function LanguageCard({ item, onClick, onFavorite }) {
+function LanguageCard({
+  name,
+  translated,
+  activated,
+  isFavorite,
+  inFavorite,
+  onClick,
+  onFavorite,
+}) {
+  const [active, setActive] = useState(activated);
   const theme = useContext(ThemeContext);
+
+  if ((inFavorite && !isFavorite) || (!inFavorite && isFavorite)) {
+    return <></>;
+  }
+
+  function click() {
+    setActive((cur: Boolean) => !cur);
+    onClick();
+  }
 
   return (
     <Pressable
       style={[
         styles.languageButton,
         {
-          backgroundColor: item.item.activated
-            ? theme.activated
-            : theme.secondary,
+          backgroundColor: active ? theme.activated : theme.secondary,
           borderColor: theme.text,
-          borderWidth: item.item.favorite ? 1 : 0,
+          borderWidth: isFavorite ? 1 : 0,
         },
       ]}
-      onPress={onClick}
+      onPress={click}
     >
       <View>
         <Text style={[styles.languageText, { color: theme.text }]}>
-          {item.item.nameInLanguage}
+          {translated}
         </Text>
         <Text
           style={[
@@ -30,12 +46,12 @@ function LanguageCard({ item, onClick, onFavorite }) {
             { color: theme.text, fontWeight: "normal" },
           ]}
         >
-          {item.item.name}
+          {name}
         </Text>
       </View>
       <Pressable onPress={onFavorite}>
         <Icon
-          name={item.item.favorite ? "star" : "star-outline"}
+          name={isFavorite ? "star" : "star-outline"}
           size={20}
           color={theme.text}
         />

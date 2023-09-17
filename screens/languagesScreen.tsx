@@ -1,5 +1,11 @@
-import { FlatList, StyleSheet, TextInput, View } from "react-native";
-import { useCallback, useContext, useState } from "react";
+import {
+  FlatList,
+  ScrollView,
+  StyleSheet,
+  TextInput,
+  View,
+} from "react-native";
+import { useContext, useEffect, useState } from "react";
 import LanguageCard from "../components/LanguageCard";
 import ClearButton from "../components/Buttons/ClearButton";
 import { ThemeContext } from "../Contexts/themeContext";
@@ -7,10 +13,20 @@ import { Language } from "../models/language";
 import { languageMatch } from "../util/format";
 import LanguagesContext from "../Contexts/languagesContext";
 
-function LanguagesScreen({ route }) {
+function LanguagesScreen({ route, navigation }) {
   const [lCount, setLCount] = useState(0);
   const [search, setSearch] = useState("");
-  const [errorMsg, setErrorMsg] = useState(null);
+  const [_, r] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener("focus", () => {
+      // The screen is focused
+      // Call any action
+    });
+
+    // Return the function to unsubscribe from the event so it gets removed on unmount
+    return unsubscribe;
+  }, [navigation]);
 
   const { languages, select, favorite } = useContext(LanguagesContext);
 
@@ -36,39 +52,45 @@ function LanguagesScreen({ route }) {
 
   function onClickFavorite(index: number) {
     if (filteredLanguages[index].favorite) {
-      setLCount((current) => current - 1);
       filteredLanguages[index].favorite = false;
     } else {
-      setLCount((current) => current + 1);
       filteredLanguages[index].favorite = true;
     }
   }
 
-  const renderFavorite = useCallback(({ item }: { item: Language }) => {
-    if (!item.favorite) {
-      return <></>;
-    }
+  function renderItem(item: Language, index: number) {
     return (
       <LanguageCard
-        item={item}
-        onClick={() => select(item.language)}
-        onFavorite={() => favorite(item.language)}
+        name={item.name}
+        translated={item.nameInLanguage}
+        activated={item.activated}
+        isFavorite={item.favorite}
+        inFavorite={false}
+        onClick={select.bind(this, item.language)}
+        onFavorite={favorite.bind(this, index)}
+        key={index}
       />
     );
-  }, []);
+  }
 
-  const renderItem = useCallback(({ item }: { item: Language }) => {
-    if (item.favorite) {
-      return <></>;
+  function renderItemFav(item: Language, index: number) {
+    function onClick() {
+      select(item.language);
     }
+
     return (
       <LanguageCard
-        item={item}
-        onClick={() => select(item.language)}
-        onFavorite={() => favorite(item.language)}
+        name={item.name}
+        translated={item.nameInLanguage}
+        activated={item.activated}
+        isFavorite={item.favorite}
+        inFavorite={true}
+        onClick={onClick}
+        onFavorite={onClickFavorite.bind(this, index)}
+        key={index}
       />
     );
-  }, []);
+  }
 
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
@@ -92,29 +114,15 @@ function LanguagesScreen({ route }) {
           color={theme.text}
         />
       </View>
-      {/* {errorMsg && <Text style={{ color: theme.text }}>{errorMsg}</Text>} */}
-      <FlatList
+      <ScrollView
         keyboardShouldPersistTaps="always"
         removeClippedSubviews
         contentContainerStyle={{ alignItems: "stretch" }}
         style={styles.list}
-        data={filteredLanguages}
-        renderItem={(item) => (
-          <>
-            {item.index ===
-              filteredLanguages.filter((l) => l.favorite).length &&
-              item.index !== 0 && (
-                <View style={[styles.separator, { borderColor: theme.text }]} />
-              )}
-            <LanguageCard
-              item={item}
-              onClick={() => select(item.item.language)}
-              onFavorite={onClickFavorite.bind(this, item.index)}
-            />
-          </>
-        )}
-        keyExtractor={(item, index) => index.toString()}
-      />
+      >
+        {filteredLanguages.map(renderItemFav)}
+        {filteredLanguages.map(renderItem)}
+      </ScrollView>
     </View>
   );
 }

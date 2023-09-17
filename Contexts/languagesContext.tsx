@@ -34,9 +34,13 @@ function LanguagesProvider({ children }) {
       languages.map((element) => {
         if (activated.split(",").includes(element.language)) {
           element["activated"] = true;
+        } else {
+          element["activated"] = false;
         }
         if (favorites.split(",").includes(element.language)) {
           element["favorite"] = true;
+        } else {
+          element["favorite"] = false;
         }
       });
 
@@ -91,13 +95,13 @@ function LanguagesProvider({ children }) {
         .toString()
     );
 
-    setSelected((curr) => {
-      if (found.activated) {
-        return [...curr, found.language];
-      } else {
-        return curr.filter((code) => code !== found.language);
-      }
-    });
+    // setSelected((curr) => {
+    //   if (found.activated) {
+    //     return [...curr, found.language];
+    //   } else {
+    //     return curr.filter((code) => code !== found.language);
+    //   }
+    // });
   }
 
   const values = {

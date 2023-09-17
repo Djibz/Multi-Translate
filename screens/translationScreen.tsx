@@ -8,8 +8,9 @@ import { ThemeContext } from "../Contexts/themeContext";
 import LanguagesContext from "../Contexts/languagesContext";
 
 function TranslationScreen({ navigation }) {
-  const [sentence, setSentence] = useState("Bonjour");
-  const [source, setSource] = useState("fr");
+  console.log("render translations");
+  const [sentence, setSentence] = useState("Hello");
+  const [source, setSource] = useState("en");
 
   const theme = useContext(ThemeContext);
 
