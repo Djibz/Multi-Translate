@@ -20,7 +20,7 @@ function LanguageCard({ item, onClick, onFavorite }) {
       ]}
       onPress={onClick}
     >
-      <View>
+      <View style={styles.textContainer}>
         <Text style={[styles.languageText, { color: theme.text }]}>
           {item.item.nameInLanguage}
         </Text>
@@ -33,7 +33,7 @@ function LanguageCard({ item, onClick, onFavorite }) {
           {item.item.name}
         </Text>
       </View>
-      <Pressable onPress={onFavorite}>
+      <Pressable onPress={onFavorite} style={styles.favoriteButton}>
         <Icon
           name={item.item.favorite ? "star" : "star-outline"}
           size={20}
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 16,
+    padding: 0,
     borderRadius: 4,
     marginVertical: 6,
     margin: 8,
@@ -59,5 +59,13 @@ const styles = StyleSheet.create({
   },
   languageText: {
     fontWeight: "bold",
+  },
+  textContainer: {
+    margin: 16,
+  },
+  favoriteButton: {
+    padding: 16,
+    display: "flex",
+    justifyContent: "center",
   },
 });
