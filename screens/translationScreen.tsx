@@ -1,15 +1,21 @@
 import { StyleSheet, View } from "react-native";
 import { FlatList } from "react-native";
 import { TranslateCard } from "../components/TranslateCard";
-import { useContext, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext, useEffect, useState } from "react";
 import CustomButton from "../components/Buttons/CustomButton";
 import { ThemeContext } from "../Contexts/themeContext";
 import LanguagesContext from "../Contexts/languagesContext";
+import React from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 function TranslationScreen({ navigation }) {
-  const [sentence, setSentence] = useState("Bonjour");
-  const [source, setSource] = useState("fr");
+  const isFocused = useIsFocused();
+  const [sentence, setSentence] = useState("Hello");
+  const [source, setSource] = useState("en");
+
+  useEffect(() => {
+    setSentence(sentence + " ");
+  }, [isFocused]);
 
   const theme = useContext(ThemeContext);
 
@@ -24,6 +30,7 @@ function TranslationScreen({ navigation }) {
 
   function deleteItem(languageCode: string) {
     select(languageCode);
+    setSentence(sentence + " ");
   }
 
   if (!languages.length) {
