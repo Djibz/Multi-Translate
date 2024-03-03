@@ -12,9 +12,10 @@ function TranslationScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [sentence, setSentence] = useState("Hello");
   const [source, setSource] = useState("en");
+  const [randomNumber, setRandomNumber] = useState(0);
 
   useEffect(() => {
-    setSentence(sentence + " ");
+    setRandomNumber((n) => n + 1);
   }, [isFocused]);
 
   const theme = useContext(ThemeContext);
@@ -30,7 +31,7 @@ function TranslationScreen({ navigation }) {
 
   function deleteItem(languageCode: string) {
     select(languageCode);
-    setSentence(sentence + " ");
+    setRandomNumber((n) => n + 1);
   }
 
   if (!languages.length) {
@@ -47,6 +48,7 @@ function TranslationScreen({ navigation }) {
   return (
     <View style={[styles.container, { backgroundColor: theme.background }]}>
       <FlatList
+        keyboardShouldPersistTaps="always"
         removeClippedSubviews={false}
         contentContainerStyle={styles.list}
         style={{ width: "100%" }}
@@ -58,6 +60,7 @@ function TranslationScreen({ navigation }) {
             sourceLanguage={source}
             onModified={onModified}
             deleteItem={deleteItem.bind(this, item.item.language)}
+            counter={randomNumber}
           />
         )}
       />

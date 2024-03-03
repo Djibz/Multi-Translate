@@ -14,6 +14,7 @@ export function TranslateCard({
   sourceLanguage,
   onModified,
   deleteItem,
+  counter,
 }) {
   const [loading, setLoading] = useState(false);
   const [passed, setPassed] = useState(false);
@@ -59,7 +60,7 @@ export function TranslateCard({
     }
 
     translateText();
-  }, [sourceSentence, sourceLanguage]);
+  }, [sourceSentence, sourceLanguage, counter]);
 
   return (
     <View style={styles.mainContainer}>
