@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     padding: 16,
     borderRadius: 4,
     marginVertical: 6,
-    margin: "5%",
+    margin: 8,
     elevation: 4,
   },
   languageText: {

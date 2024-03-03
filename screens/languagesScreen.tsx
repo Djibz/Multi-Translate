@@ -16,13 +16,15 @@ function LanguagesScreen({ route }) {
 
   const theme = useContext(ThemeContext);
 
-  const filteredLanguages = languages
-    .filter((item: Language) => languageMatch(item, search))
-    .sort((a: Language, b: Language) => {
-      if (a.favorite === b.favorite) return 0;
-      if (a.favorite) return -1;
-      return 1;
-    });
+  const filteredFavorites = languages
+    .filter((l: Language) => l.favorite)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const filteredOthers = languages
+    .filter((l: Language) => !l.favorite)
+    .sort((a, b) => a.name.localeCompare(b.name));
+
+  const filteredLanguages = [...filteredFavorites, ...filteredOthers];
 
   function onClick(index: number) {
     if (filteredLanguages[index].activated) {
@@ -66,10 +68,9 @@ function LanguagesScreen({ route }) {
           color={theme.text}
         />
       </View>
-      {/* {errorMsg && <Text style={{ color: theme.text }}>{errorMsg}</Text>} */}
       <FlatList
         keyboardShouldPersistTaps="always"
-        contentContainerStyle={{ alignItems: "stretch" }}
+        contentContainerStyle={{ alignItems: "stretch", paddingVertical: 8 }}
         style={styles.list}
         data={filteredLanguages}
         renderItem={(item) => (
