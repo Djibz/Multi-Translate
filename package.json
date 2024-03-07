@@ -1,5 +1,5 @@
 {
-  "name": "translator",
+  "name": "multitranslate",
   "version": "1.0.0",
   "scripts": {
     "start": "npx expo start --tunnel",
