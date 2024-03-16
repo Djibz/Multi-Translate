@@ -70,7 +70,7 @@ export function TranslateCard({
   return (
     <View style={styles.mainContainer}>
       <MagicBorder
-        radius={4}
+        radius={8}
         width={4}
         image={{
           uri: `https://flagcdn.com/h240/${
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     padding: 8,
     height: 100,
     width: "100%",
-    borderRadius: 4,
+    borderRadius: 8,
     elevation: 1,
   },
   text: {
@@ -149,8 +149,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   input: {
-    borderRadius: 4,
-    padding: 4,
+    borderRadius: 8,
+    padding: 8,
     paddingHorizontal: 8,
     overflow: "hidden",
     minHeight: 48,

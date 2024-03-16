@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 0,
-    borderRadius: 4,
+    borderRadius: 8,
     marginVertical: 6,
     margin: 8,
     elevation: 4,
