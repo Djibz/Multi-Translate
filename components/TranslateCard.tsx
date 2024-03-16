@@ -25,7 +25,6 @@ export function TranslateCard({
   const theme = useContext(ThemeContext);
 
   const playAudio = useSpeech(sentence, item.language);
-  console.log(item);
 
   if (passed) {
     setPassed(false);
@@ -91,6 +90,7 @@ export function TranslateCard({
                   color="#00000000"
                   iconColor={theme.text}
                   onPress={playAudio}
+                  style={styles.speechButton}
                 />
               ) : (
                 <View />
@@ -172,5 +172,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "flex-end",
     marginLeft: "10%",
+  },
+  speechButton: {
+    minHeight: 4,
+    padding: 0,
   },
 });

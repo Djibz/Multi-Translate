@@ -2,6 +2,8 @@ import { useContext, useState } from "react";
 import RoundIconButton from "./RoundIconButton";
 import { ActivityIndicator } from "react-native-paper";
 import { ThemeContext } from "../../Contexts/themeContext";
+import CustomButton from "./CustomButton";
+import { StyleSheet } from "react-native";
 
 function AsyncButton({
   size = 32,
@@ -23,9 +25,9 @@ function AsyncButton({
   if (loading) {
     return (
       <ActivityIndicator
-        style={[style, { maxHeight: size }]}
+        style={[style, { maxHeight: size, paddingHorizontal: 4 }]}
         color={theme.text}
-        size={size * 0.6}
+        size={size * 0.7}
       />
     );
   }
