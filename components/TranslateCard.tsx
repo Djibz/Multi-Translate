@@ -25,6 +25,7 @@ export function TranslateCard({
   const theme = useContext(ThemeContext);
 
   const playAudio = useSpeech(sentence, item.language);
+  console.log(item);
 
   if (passed) {
     setPassed(false);
@@ -84,12 +85,16 @@ export function TranslateCard({
               {item.name}
             </Text>
             <View style={styles.topButtons}>
-              <AsyncButton
-                name="volume-high"
-                color="#00000000"
-                iconColor={theme.text}
-                onPress={playAudio}
-              />
+              {item.speech ? (
+                <AsyncButton
+                  name="volume-high"
+                  color="#00000000"
+                  iconColor={theme.text}
+                  onPress={playAudio}
+                />
+              ) : (
+                <View />
+              )}
               <RoundIconButton
                 name="trash"
                 color="#00000000"

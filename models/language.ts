@@ -4,4 +4,5 @@ export type Language = {
     activated?: boolean;
     favorite?: boolean;
     nameInLanguage?: string;
+    speech?: boolean;
 }

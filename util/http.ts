@@ -63,4 +63,17 @@ async function getAudio(text: string, languageCode: string): Promise<string> {
     });
 }
 
-export { getAllLanguages, translate, getAudio };
+async function getVoices(): Promise<Array<String>> {
+  return axios
+    .get(
+      `https://texttospeech.googleapis.com/v1/voices?key=${apiKey}`,
+      { headers }
+    )
+    .then((response) => response.data.voices.map((object) => object.languageCodes[0].split('-')[0]))
+    .catch((error) => {
+      console.error(error);
+      return [];
+    });
+}
+
+export { getAllLanguages, translate, getVoices, getAudio };

@@ -5,6 +5,7 @@ import { useLanguages } from "../hooks/useLanguages";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { translate } from "../util/http";
 import LoadingScreen from "../screens/loadingScreen";
+import { useVoices } from "../hooks/useVoices";
 
 const LanguagesContext = createContext<{
   languages: Language[];
@@ -19,6 +20,7 @@ function LanguagesProvider({ children }) {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const baseLanguages = useLanguages(language);
+  const voices = useVoices();
 
   useEffect(() => {
     async function process() {
@@ -47,6 +49,7 @@ function LanguagesProvider({ children }) {
             translations[l.language] = translation;
           }
           l["nameInLanguage"] = translations[l.language];
+          l["speech"] = voices.includes(l.language);
         })
       );
 
@@ -56,7 +59,7 @@ function LanguagesProvider({ children }) {
     }
 
     process();
-  }, [baseLanguages]);
+  }, [baseLanguages, voices]);
 
   function favorite(languageCode: string) {
     const found = languages.find((l) => l.language === languageCode);
