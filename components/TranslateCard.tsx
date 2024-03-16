@@ -6,6 +6,7 @@ import RoundIconButton from "./Buttons/RoundIconButton";
 import ClearButton from "./Buttons/ClearButton";
 import { ThemeContext } from "../Contexts/themeContext";
 import { useSpeech } from "../hooks/useSpeech";
+import AsyncButton from "./Buttons/AsyncButton";
 
 let wait = null;
 
@@ -82,21 +83,20 @@ export function TranslateCard({
             <Text style={[styles.text, { color: theme.text }]}>
               {item.name}
             </Text>
-            <RoundIconButton
-              name="volume-high"
-              color="#00000000"
-              iconColor={theme.text}
-              onPress={() => {
-                playAudio();
-              }}
-            />
-            <RoundIconButton
-              name="trash"
-              color="#00000000"
-              iconColor={theme.delete}
-              onPress={deleteItem}
-              style={{ marginLeft: 48 }}
-            />
+            <View style={styles.topButtons}>
+              <AsyncButton
+                name="volume-high"
+                color="#00000000"
+                iconColor={theme.text}
+                onPress={playAudio}
+              />
+              <RoundIconButton
+                name="trash"
+                color="#00000000"
+                iconColor={theme.delete}
+                onPress={deleteItem}
+              />
+            </View>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
     elevation: 1,
   },
   text: {
-    flex: 1,
     fontWeight: "bold",
   },
   inputContainer: {
@@ -162,5 +161,11 @@ const styles = StyleSheet.create({
     position: "absolute",
     alignSelf: "flex-end",
     padding: 12,
+  },
+  topButtons: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    marginLeft: "10%",
   },
 });

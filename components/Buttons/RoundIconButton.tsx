@@ -2,7 +2,7 @@ import { Pressable, StyleSheet } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 
 function RoundIconButton({
-  size = 24,
+  size = 32,
   color,
   iconColor,
   name,
@@ -25,7 +25,6 @@ function RoundIconButton({
         {
           maxWidth: size,
           height: size,
-          borderRadius: size / 2,
           backgroundColor: color,
         },
         style,
