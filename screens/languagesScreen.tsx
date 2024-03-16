@@ -17,11 +17,11 @@ function LanguagesScreen({ route }) {
   const theme = useContext(ThemeContext);
 
   const filteredFavorites = languages
-    .filter((l: Language) => l.favorite)
+    .filter((l: Language) => l.favorite && languageMatch(l, search))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const filteredOthers = languages
-    .filter((l: Language) => !l.favorite)
+    .filter((l: Language) => !l.favorite && languageMatch(l, search))
     .sort((a, b) => a.name.localeCompare(b.name));
 
   const filteredLanguages = [...filteredFavorites, ...filteredOthers];
