@@ -45,9 +45,9 @@ async function getAudio(text: string, languageCode: string): Promise<string> {
   const body = {
     input: { text },
     audioConfig: {
-      audioEncoding: "MP3",
+      audioEncoding: "OGG_OPUS",
     },
-    voice: { languageCode },
+    voice: { languageCode, ssmlGender: 'FEMALE' },
   };
 
   return axios
@@ -56,8 +56,8 @@ async function getAudio(text: string, languageCode: string): Promise<string> {
       body,
       { headers }
     )
-    .then((response) => response)
-    .then((error) => {
+    .then((response) => response.data.audioContent)
+    .catch((error) => {
       console.error(error);
       return "";
     });

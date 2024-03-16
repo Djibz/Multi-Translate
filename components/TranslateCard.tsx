@@ -5,6 +5,7 @@ import { translate } from "../util/http";
 import RoundIconButton from "./Buttons/RoundIconButton";
 import ClearButton from "./Buttons/ClearButton";
 import { ThemeContext } from "../Contexts/themeContext";
+import { useSpeech } from "../hooks/useSpeech";
 
 let wait = null;
 
@@ -21,6 +22,8 @@ export function TranslateCard({
   const [sentence, setSentence] = useState("");
 
   const theme = useContext(ThemeContext);
+
+  const playAudio = useSpeech(sentence, item.language);
 
   if (passed) {
     setPassed(false);
@@ -82,8 +85,10 @@ export function TranslateCard({
             <RoundIconButton
               name="volume-high"
               color="#00000000"
-              iconColor={theme.delete}
-              onPress={() => {}}
+              iconColor={theme.text}
+              onPress={() => {
+                playAudio();
+              }}
             />
             <RoundIconButton
               name="trash"
