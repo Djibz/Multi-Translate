@@ -24,9 +24,7 @@ function IconTextButton({
 
   async function action() {
     clearTimeout(wait);
-    console.log("début");
     await onPress();
-    console.log("fin");
     if (doneDuration) {
       setAct(true);
     }
@@ -69,11 +67,11 @@ function IconTextButton({
       <Icon
         color={act ? theme.activated : color ?? theme.text}
         name={act ? "checkmark" : iconName}
-        size={24}
+        size={16}
       />
-      {/* <Text style={{ color: theme.text, textAlign: "center", marginLeft: 8 }}>
+      <Text style={{ color: theme.text, textAlign: "center", marginLeft: 0 }}>
         {act ? activatedText ?? text : text}
-      </Text> */}
+      </Text>
     </Pressable>
   );
 }
@@ -88,8 +86,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
-    // paddingHorizontal: 8,
-    // borderWidth: 5,
     borderColor: "green",
     backgroundColor: "green",
   },

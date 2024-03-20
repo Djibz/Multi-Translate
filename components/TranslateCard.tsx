@@ -89,25 +89,20 @@ export function TranslateCard({
             </Text>
             <View style={styles.buttonsContainer}>
               <IconTextButton
-                text="Play"
-                activatedText="Playing"
                 name="volume-high"
                 onPress={playAudio}
-                onDone={() => ToastAndroid.show("Playing", ToastAndroid.SHORT)}
-                doneDuration={3000}
+                onDone={() => ToastAndroid.show("Playing", ToastAndroid.LONG)}
+                doneDuration={1500}
                 disabled={!item.speech}
               />
               <IconTextButton
-                text="Copy"
-                activatedText="Copied"
                 name="copy"
                 onPress={toClipBoard}
                 onDone={() => ToastAndroid.show("Copied", ToastAndroid.SHORT)}
-                doneDuration={3000}
+                doneDuration={1000}
                 style={{ marginHorizontal: 4 }}
               />
               <IconTextButton
-                text="Delete"
                 name="trash"
                 color="#eb4034"
                 onPress={deleteItem}
@@ -150,7 +145,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 8,
-    height: 140,
+    height: 104,
     width: "100%",
     borderRadius: 8,
     elevation: 1,
@@ -182,8 +177,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   buttonsContainer: {
-    // paddingTop: 8,
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "flex-start",
   },
 });
