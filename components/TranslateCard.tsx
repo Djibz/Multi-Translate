@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TextInput, View } from "react-native";
+import { StyleSheet, Text, TextInput, ToastAndroid, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
 import { useContext, useEffect, useState } from "react";
 import { translate } from "../util/http";
@@ -87,6 +87,35 @@ export function TranslateCard({
             <Text style={[styles.text, { color: theme.text }]}>
               {item.name}
             </Text>
+            <View style={styles.buttonsContainer}>
+              <IconTextButton
+                text="Play"
+                activatedText="Playing"
+                name="volume-high"
+                onPress={playAudio}
+                onDone={() => ToastAndroid.show("Playing", ToastAndroid.SHORT)}
+                doneDuration={3000}
+                disabled={!item.speech}
+              />
+              <IconTextButton
+                text="Copy"
+                activatedText="Copied"
+                name="copy"
+                onPress={toClipBoard}
+                onDone={() => ToastAndroid.show("Copied", ToastAndroid.SHORT)}
+                doneDuration={3000}
+                style={{ marginHorizontal: 4 }}
+              />
+              <IconTextButton
+                text="Delete"
+                name="trash"
+                color="#eb4034"
+                onPress={deleteItem}
+                onDone={() =>
+                  ToastAndroid.show("Deleted language", ToastAndroid.SHORT)
+                }
+              />
+            </View>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -106,21 +135,6 @@ export function TranslateCard({
               size={24}
               onPress={() => onChange("")}
               color={theme.text}
-            />
-          </View>
-          <View style={styles.buttonsContainer}>
-            <IconTextButton text="Copy" name="copy" onPress={toClipBoard} />
-            <IconTextButton
-              text="Listen"
-              name="volume-high"
-              style={{ marginHorizontal: 8 }}
-              onPress={playAudio}
-            />
-            <IconTextButton
-              text="Delete"
-              name="trash"
-              color="#eb4034"
-              onPress={deleteItem}
             />
           </View>
         </View>
@@ -168,9 +182,8 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   buttonsContainer: {
-    paddingTop: 8,
-    display: "flex",
+    // paddingTop: 8,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
   },
 });
