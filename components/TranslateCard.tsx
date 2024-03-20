@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     minHeight: 48,
     paddingRight: 48,
-    elevation: 2,
+    elevation: 4,
   },
   topContainer: {
     flex: 1,
