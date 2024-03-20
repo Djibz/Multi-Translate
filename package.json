@@ -20,6 +20,7 @@
     "expo": "^50.0.8",
     "expo-auth-session": "~5.4.0",
     "expo-av": "~13.10.5",
+    "expo-clipboard": "~5.0.1",
     "expo-crypto": "~12.8.1",
     "expo-linking": "~6.2.2",
     "expo-splash-screen": "~0.26.4",

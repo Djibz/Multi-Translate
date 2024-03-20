@@ -32,10 +32,10 @@ export function MagicBorder({
 const styles = StyleSheet.create({
   border: {
     overflow: "hidden",
-    height: 108,
+    height: 148,
   },
   progressBar: {
-    height: 108,
+    height: 148,
     position: "absolute",
     backgroundColor: "#00000000",
   },

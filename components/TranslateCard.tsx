@@ -2,11 +2,11 @@ import { StyleSheet, Text, TextInput, View } from "react-native";
 import { MagicBorder } from "./MagicBorder";
 import { useContext, useEffect, useState } from "react";
 import { translate } from "../util/http";
-import RoundIconButton from "./Buttons/RoundIconButton";
 import ClearButton from "./Buttons/ClearButton";
 import { ThemeContext } from "../Contexts/themeContext";
 import { useSpeech } from "../hooks/useSpeech";
-import AsyncButton from "./Buttons/AsyncButton";
+import IconTextButton from "./Buttons/IconTextButton";
+import * as Clipboard from "expo-clipboard";
 
 let wait = null;
 
@@ -39,6 +39,10 @@ export function TranslateCard({
     wait = setTimeout(() => {
       setPassed(true);
     }, 500);
+  }
+
+  async function toClipBoard() {
+    return Clipboard.setStringAsync(sentence);
   }
 
   useEffect(() => {
@@ -83,25 +87,6 @@ export function TranslateCard({
             <Text style={[styles.text, { color: theme.text }]}>
               {item.name}
             </Text>
-            <View style={styles.topButtons}>
-              {item.speech ? (
-                <AsyncButton
-                  name="volume-high"
-                  color="#00000000"
-                  iconColor={theme.text}
-                  onPress={playAudio}
-                  style={styles.speechButton}
-                />
-              ) : (
-                <View />
-              )}
-              <RoundIconButton
-                name="trash"
-                color="#00000000"
-                iconColor={theme.delete}
-                onPress={deleteItem}
-              />
-            </View>
           </View>
           <View style={styles.inputContainer}>
             <TextInput
@@ -123,6 +108,21 @@ export function TranslateCard({
               color={theme.text}
             />
           </View>
+          <View style={styles.buttonsContainer}>
+            <IconTextButton text="Copy" name="copy" onPress={toClipBoard} />
+            <IconTextButton
+              text="Listen"
+              name="volume-high"
+              style={{ marginHorizontal: 8 }}
+              onPress={playAudio}
+            />
+            <IconTextButton
+              text="Delete"
+              name="trash"
+              color="#eb4034"
+              onPress={deleteItem}
+            />
+          </View>
         </View>
       </MagicBorder>
     </View>
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 8,
-    height: 100,
+    height: 140,
     width: "100%",
     borderRadius: 8,
     elevation: 1,
@@ -167,14 +167,10 @@ const styles = StyleSheet.create({
     alignSelf: "flex-end",
     padding: 12,
   },
-  topButtons: {
-    flex: 1,
+  buttonsContainer: {
+    paddingTop: 8,
+    display: "flex",
     flexDirection: "row",
-    justifyContent: "flex-end",
-    marginLeft: "10%",
-  },
-  speechButton: {
-    minHeight: 4,
-    padding: 0,
+    justifyContent: "space-between",
   },
 });
