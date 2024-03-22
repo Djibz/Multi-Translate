@@ -35,19 +35,7 @@ function IconTextButton({
   }
 
   if (disabled) {
-    return (
-      <View
-        style={[
-          styles.container,
-          style,
-          {
-            borderColor: "#00000000",
-            borderWidth: 2,
-            backgroundColor: "#00000000",
-          },
-        ]}
-      ></View>
-    );
+    return <></>;
   }
 
   return (
