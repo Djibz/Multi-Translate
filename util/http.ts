@@ -14,6 +14,9 @@ async function getAllLanguages(mainLanguage: String) {
     })
     .then((response) => {
       return response.data.data.languages;
+    }).catch((err) => {
+      console.error(err);
+      return [];
     });
 }
 
@@ -36,6 +39,9 @@ async function translate(
     .post(`${baseUrl}?key=${apiKey}`, body, { headers })
     .then((response) => {
       return response.data.data.translations[0].translatedText;
+    }).catch(err => {
+      console.error(body);
+      return text;
     });
 }
 
