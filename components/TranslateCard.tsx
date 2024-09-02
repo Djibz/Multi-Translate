@@ -7,6 +7,7 @@ import { ThemeContext } from "../Contexts/themeContext";
 import { useSpeech } from "../hooks/useSpeech";
 import IconTextButton from "./Buttons/IconTextButton";
 import * as Clipboard from "expo-clipboard";
+import LanguageFlagMap from '../constants/LanguageFlagMap'
 
 let wait = null;
 
@@ -70,6 +71,8 @@ export function TranslateCard({
     translateText();
   }, [sourceSentence, sourceLanguage, counter]);
 
+  const flag_code = LanguageFlagMap[item.language] ?? item.language;
+
   return (
     <View style={styles.mainContainer}>
       <MagicBorder
@@ -77,7 +80,7 @@ export function TranslateCard({
         width={4}
         image={{
           uri: `https://flagcdn.com/h240/${
-            item.language === "en" ? "gb" : item.language
+            flag_code
           }.png`,
         }}
         loading={loading}
